@@ -1,7 +1,5 @@
 <?php
 // 📄 verify.php — 이메일 인증 확인 및 가입 확정
-
-session_start();
 include_once('./_common.php');
 
 // 1. 토큰 확인

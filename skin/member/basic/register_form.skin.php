@@ -48,8 +48,8 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
     </div>
 
     <div>
-      <label for="mb_homepage">채널 주소</label>
-      <input type="text" name="mb_homepage" id="mb_homepage" placeholder="유튜브/스트리머 채널 URL">
+      <label for="mb_streamer_page">채널 주소</label>
+      <input type="text" name="mb_streamer_page" id="mb_streamer_page" placeholder="유튜브/스트리머 채널 URL">
     </div>
 
     <div>
