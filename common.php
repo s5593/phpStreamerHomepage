@@ -106,14 +106,14 @@ function sql_escape_string($str)
 // SQL Injection 등으로 부터 보호를 위해 sql_escape_string() 적용
 //------------------------------------------------------------------------------
 // magic_quotes_gpc 에 의한 backslashes 제거
-if (7.0 > (float)phpversion()) {
-    if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
-        $_POST    = array_map_deep('stripslashes',  $_POST);
-        $_GET     = array_map_deep('stripslashes',  $_GET);
-        $_COOKIE  = array_map_deep('stripslashes',  $_COOKIE);
-        $_REQUEST = array_map_deep('stripslashes',  $_REQUEST);
-    }
-}
+// if (7.0 > (float)phpversion()) {
+//     if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+//         $_POST    = array_map_deep('stripslashes',  $_POST);
+//         $_GET     = array_map_deep('stripslashes',  $_GET);
+//         $_COOKIE  = array_map_deep('stripslashes',  $_COOKIE);
+//         $_REQUEST = array_map_deep('stripslashes',  $_REQUEST);
+//     }
+// }
 
 // sql_escape_string 적용
 $_POST    = array_map_deep(G5_ESCAPE_FUNCTION,  $_POST);
@@ -527,62 +527,63 @@ if (isset($_REQUEST['gr_id'])) {
 
 
 // 자동로그인 부분에서 첫로그인에 포인트 부여하던것을 로그인중일때로 변경하면서 코드도 대폭 수정하였습니다.
-if (isset($_SESSION['ss_mb_id']) && $_SESSION['ss_mb_id']) { // 로그인중이라면
-    $member = get_member($_SESSION['ss_mb_id']);
+// if (isset($_SESSION['ss_mb_id']) && $_SESSION['ss_mb_id']) { // 로그인중이라면
+//     $member = get_member($_SESSION['ss_mb_id']);
 
-    // 차단된 회원이면 ss_mb_id 초기화, 또는 세션에 저장된 회원 토큰값을 비교하여 틀리면 초기화
-    if( ($member['mb_intercept_date'] && $member['mb_intercept_date'] <= date("Ymd", G5_SERVER_TIME)) 
-        || ($member['mb_leave_date'] && $member['mb_leave_date'] <= date("Ymd", G5_SERVER_TIME))
-        || (function_exists('check_auth_session_token') && !check_auth_session_token($member['mb_datetime'])) 
-        ) {
-        set_session('ss_mb_id', '');
+//     // 차단된 회원이면 ss_mb_id 초기화, 또는 세션에 저장된 회원 토큰값을 비교하여 틀리면 초기화
+//     if( ($member['mb_intercept_date'] && $member['mb_intercept_date'] <= date("Ymd", G5_SERVER_TIME)) 
+//         || ($member['mb_leave_date'] && $member['mb_leave_date'] <= date("Ymd", G5_SERVER_TIME))
+//         || (function_exists('check_auth_session_token') && !check_auth_session_token($member['mb_datetime'])) 
+//         ) {
+//         set_session('ss_mb_id', '');
+//         $member = array();
+//     } else {
+//         // 오늘 처음 로그인 이라면
+//         if (substr($member['mb_today_login'], 0, 10) != G5_TIME_YMD) {
+//             // 첫 로그인 포인트 지급
+//             insert_point($member['mb_id'], $config['cf_login_point'], G5_TIME_YMD.' 첫로그인', '@login', $member['mb_id'], G5_TIME_YMD);
+
+//             // 오늘의 로그인이 될 수도 있으며 마지막 로그인일 수도 있음
+//             // 해당 회원의 접근일시와 IP 를 저장
+//             $sql = " update {$g5['member_table']} set mb_today_login = '".G5_TIME_YMDHIS."', mb_login_ip = '{$_SERVER['REMOTE_ADDR']}' where mb_id = '{$member['mb_id']}' ";
+//             sql_query($sql);
+//         }
+//     }
+// }
+
+if (!isset($_SESSION)) session_start();
+
+// 세션에서 회원 아이디 가져오기
+$mb_id = isset($_SESSION['ss_mb_id']) ? trim($_SESSION['ss_mb_id']) : '';
+
+// 기본 회원 정보 배열 선언
+$member = array();
+
+if ($mb_id) {
+    // 회원 정보 조회
+    $member = get_member($mb_id);
+
+    // 현재 날짜
+    $today = date('Y-m-d');
+
+    // 회원 상태 점검 (탈퇴, 차단 여부 확인)
+    if (
+        empty($member) ||
+        ($member['mb_is_leave'] == 1 && $member['mb_leave_date'] && $member['mb_leave_date'] <= $today) ||
+        ($member['mb_is_intercepted'] == 1 && $member['mb_intercept_date'] && $member['mb_intercept_date'] <= $today)
+    ) {
+        // 차단/탈퇴된 회원이므로 세션 초기화
+        unset($_SESSION['ss_mb_id']);
         $member = array();
     } else {
-        // 오늘 처음 로그인 이라면
-        if (substr($member['mb_today_login'], 0, 10) != G5_TIME_YMD) {
-            // 첫 로그인 포인트 지급
-            insert_point($member['mb_id'], $config['cf_login_point'], G5_TIME_YMD.' 첫로그인', '@login', $member['mb_id'], G5_TIME_YMD);
-
-            // 오늘의 로그인이 될 수도 있으며 마지막 로그인일 수도 있음
-            // 해당 회원의 접근일시와 IP 를 저장
-            $sql = " update {$g5['member_table']} set mb_today_login = '".G5_TIME_YMDHIS."', mb_login_ip = '{$_SERVER['REMOTE_ADDR']}' where mb_id = '{$member['mb_id']}' ";
-            sql_query($sql);
-        }
+        // 'mb_today_login' 컬럼이 없으므로 로그인 로그만 남기면 됨
+        // 현재 로그인 로그 추가
+        $sql = "INSERT INTO g5_login_log
+                    (mb_id, ip_address, user_agent, login_datetime, success)
+                VALUES
+                    ('{$member['mb_id']}', '{$_SERVER['REMOTE_ADDR']}', '{$_SERVER['HTTP_USER_AGENT']}', NOW(), 'Y')";
+        sql_query($sql);
     }
-} else {
-    // 자동로그인 ---------------------------------------
-    // 회원아이디가 쿠키에 저장되어 있다면 (3.27)
-    if ($tmp_mb_id = get_cookie('ck_mb_id')) {
-
-        $tmp_mb_id = substr(preg_replace("/[^a-zA-Z0-9_]*/", "", $tmp_mb_id), 0, 20);
-        // 최고관리자는 자동로그인 금지
-        if (strtolower($tmp_mb_id) !== strtolower($config['cf_admin'])) {
-            $sql = " select mb_password, mb_intercept_date, mb_leave_date, mb_email_certify, mb_datetime from {$g5['member_table']} where mb_id = '{$tmp_mb_id}' ";
-            $row = sql_fetch($sql);
-            if($row['mb_password']){
-                $key = md5($_SERVER['SERVER_ADDR'] . $_SERVER['SERVER_SOFTWARE'] . $_SERVER['HTTP_USER_AGENT'] . $row['mb_password']);
-                // 쿠키에 저장된 키와 같다면
-                $tmp_key = get_cookie('ck_auto');
-                if ($tmp_key === $key && $tmp_key) {
-                    // 차단, 탈퇴가 아니고 메일인증이 사용이면서 인증을 받았다면
-                    if ($row['mb_intercept_date'] == '' &&
-                        $row['mb_leave_date'] == '' &&
-                        (!$config['cf_use_email_certify'] || preg_match('/[1-9]/', $row['mb_email_certify'])) ) {
-                        // 세션에 회원아이디를 저장하여 로그인으로 간주
-                        set_session('ss_mb_id', $tmp_mb_id);
-                        if(function_exists('update_auth_session_token')) update_auth_session_token($row['mb_datetime']);
-
-                        // 페이지를 재실행
-                        echo "<script type='text/javascript'> window.location.reload(); </script>";
-                        exit;
-                    }
-                }
-            }
-            // $row 배열변수 해제
-            unset($row);
-        }
-    }
-    // 자동로그인 end ---------------------------------------
 }
 
 
@@ -790,8 +791,6 @@ if (G5_IS_MOBILE) {
     $search_skin_url    = get_skin_url('search', $config['cf_mobile_search_skin']);
     $connect_skin_path  = get_skin_path('connect', $config['cf_mobile_connect_skin']);
     $connect_skin_url   = get_skin_url('connect', $config['cf_mobile_connect_skin']);
-    $faq_skin_path      = get_skin_path('faq', $config['cf_mobile_faq_skin']);
-    $faq_skin_url       = get_skin_url('faq', $config['cf_mobile_faq_skin']);
 } else {
     $board_skin_path    = get_skin_path('board', $board['bo_skin']);
     $board_skin_url     = get_skin_url('board', $board['bo_skin']);
@@ -803,8 +802,6 @@ if (G5_IS_MOBILE) {
     $search_skin_url    = get_skin_url('search', $config['cf_search_skin']);
     $connect_skin_path  = get_skin_path('connect', $config['cf_connect_skin']);
     $connect_skin_url   = get_skin_url('connect', $config['cf_connect_skin']);
-    $faq_skin_path      = get_skin_path('faq', $config['cf_faq_skin']);
-    $faq_skin_url       = get_skin_url('faq', $config['cf_faq_skin']);
 }
 //==============================================================================
 

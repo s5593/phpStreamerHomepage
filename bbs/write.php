@@ -51,14 +51,6 @@ if ($w == '') {
         }
     }
 
-    // 음수도 true 인것을 왜 이제야 알았을까?
-    if ($is_member) {
-        $tmp_point = ($member['mb_point'] > 0) ? $member['mb_point'] : 0;
-        if ($tmp_point + $board['bo_write_point'] < 0 && !$is_admin) {
-            alert('보유하신 포인트('.number_format($member['mb_point']).')가 없거나 모자라서 글쓰기('.number_format($board['bo_write_point']).')가 불가합니다.\\n\\n포인트를 적립하신 후 다시 글쓰기 해 주십시오.');
-        }
-    }
-
     $title_msg = '글쓰기';
 } else if ($w == 'u') {
     // 김선용 1.00 : 글쓰기 권한과 수정은 별도로 처리되어야 함
@@ -297,7 +289,6 @@ if ($w == "" || $w == "r") {
             $name = get_text(cut_str(stripslashes($write['wr_name']),20));
         }
         $email = get_email_address($member['mb_email']);
-        $homepage = get_text(stripslashes($member['mb_homepage']));
     }
 }
 

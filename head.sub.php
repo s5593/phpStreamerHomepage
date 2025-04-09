@@ -79,9 +79,6 @@ var g5_bo_table  = "<?php echo isset($bo_table)?$bo_table:''; ?>";
 var g5_sca       = "<?php echo isset($sca)?$sca:''; ?>";
 var g5_editor    = "<?php echo ($config['cf_editor'] && $board['bo_use_dhtml_editor'])?$config['cf_editor']:''; ?>";
 var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";
-<?php if(defined('G5_USE_SHOP') && G5_USE_SHOP) { ?>
-var g5_shop_url = "<?php echo G5_SHOP_URL; ?>";
-<?php } ?>
 <?php if(defined('G5_IS_ADMIN')) { ?>
 var g5_admin_url = "<?php echo G5_ADMIN_URL; ?>";
 <?php } ?>
@@ -112,10 +109,10 @@ if(!defined('G5_IS_ADMIN'))
 <?php
 if ($is_member) { // 회원이라면 로그인 중이라는 메세지를 출력해준다.
     $sr_admin_msg = '';
-    if ($is_admin == 'super') $sr_admin_msg = "최고관리자 ";
-    else if ($is_admin == 'group') $sr_admin_msg = "그룹관리자 ";
-    else if ($is_admin == 'board') $sr_admin_msg = "게시판관리자 ";
+    if ($mb_level == 4) $sr_admin_msg = "최고관리자 ";
+    else if ($mb_level == 3) $sr_admin_msg = "관리자 ";
+    else if ($mb_level <= 2) $sr_admin_msg = "사용자 ";
 
-    echo '<div id="hd_login_msg">'.$sr_admin_msg.get_text($member['mb_nick']).'님 로그인 중 ';
+    echo '<div id="hd_login_msg">'.$sr_admin_msg.get_text($member['mb_id']).'님 로그인 중 ';
     echo '<a href="'.G5_BBS_URL.'/logout.php">로그아웃</a></div>';
 }

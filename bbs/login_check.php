@@ -1,182 +1,82 @@
 <?php
 include_once('./_common.php');
 
-$g5['title'] = "로그인 검사";
+if (!isset($_SESSION)) session_start();
 
-$mb_id       = isset($_POST['mb_id']) ? trim($_POST['mb_id']) : '';
-$mb_password = isset($_POST['mb_password']) ? trim($_POST['mb_password']) : '';
+// ✅ CSRF 토큰 검증
+$token = $_POST['token'] ?? '';
+if (!isset($_SESSION['login_token']) || $token !== $_SESSION['login_token']) {
+    alert('유효하지 않은 요청입니다. (CSRF 차단)');
+}
 
-run_event('member_login_check_before', $mb_id);
+// ✅ 로그인 실패 제한 설정
+$mb_id = trim($_POST['mb_id'] ?? '');
+$mb_password = trim($_POST['mb_password'] ?? '');
+$ip_address = $_SERVER['REMOTE_ADDR'];
 
-if (!$mb_id || run_replace('check_empty_member_login_password', !$mb_password, $mb_id))
-    alert('회원아이디나 비밀번호가 공백이면 안됩니다.');
+if (!$mb_id || !$mb_password) {
+    alert('아이디와 비밀번호를 모두 입력해 주세요.');
+}
 
+// 최근 10분간 로그인 실패 횟수 조회
+$fail_check_sql = "SELECT COUNT(*) AS cnt 
+                   FROM g5_login_log 
+                   WHERE mb_id = '{$mb_id}' 
+                     AND success = 'N' 
+                     AND login_datetime > DATE_SUB(NOW(), INTERVAL 10 MINUTE)";
+$fail_result = sql_fetch($fail_check_sql);
+if ((int)$fail_result['cnt'] >= 5) {
+    alert("로그인 시도 횟수가 너무 많습니다. 잠시 후 다시 시도해주세요.");
+}
+
+// 회원 조회
 $mb = get_member($mb_id);
 
-//소셜 로그인추가 체크
-
-$is_social_login = false;
-$is_social_password_check = false;
-
-// 소셜 로그인이 맞는지 체크하고 해당 값이 맞는지 체크합니다.
-if(function_exists('social_is_login_check')){
-    $is_social_login = social_is_login_check();
-
-    //패스워드를 체크할건지 결정합니다.
-    //소셜로그인일때는 체크하지 않고, 계정을 연결할때는 체크합니다.
-    $is_social_password_check = social_is_login_password_check($mb_id);
+// 비밀번호 검증
+if (!$mb || !password_verify($mb_password, $mb['mb_password'])) {
+    // 실패 로그 기록
+    $sql = "INSERT INTO g5_login_log (mb_id, ip_address, user_agent, login_datetime, success)
+            VALUES ('{$mb_id}', '{$ip_address}', '{$_SERVER['HTTP_USER_AGENT']}', NOW(), 'N')";
+    sql_query($sql);
+    alert('아이디 또는 비밀번호가 틀렸습니다.');
 }
 
-$is_need_not_password = run_replace('login_check_need_not_password', $is_social_password_check, $mb_id, $mb_password, $mb, $is_social_login);
-
-// $is_need_not_password 변수가 true 이면 패스워드를 체크하지 않습니다.
-// 가입된 회원이 아니다. 비밀번호가 틀리다. 라는 메세지를 따로 보여주지 않는 이유는
-// 회원아이디를 입력해 보고 맞으면 또 비밀번호를 입력해보는 경우를 방지하기 위해서입니다.
-// 불법사용자의 경우 회원아이디가 틀린지, 비밀번호가 틀린지를 알기까지는 많은 시간이 소요되기 때문입니다.
-if (!$is_need_not_password && (! (isset($mb['mb_id']) && $mb['mb_id']) || !login_password_check($mb, $mb_password, $mb['mb_password'])) ) {
-
-    run_event('password_is_wrong', 'login', $mb);
-
-    alert('가입된 회원아이디가 아니거나 비밀번호가 틀립니다.\\n비밀번호는 대소문자를 구분합니다.');
-}
-
-// 차단된 아이디인가?
-if ($mb['mb_intercept_date'] && $mb['mb_intercept_date'] <= date("Ymd", G5_SERVER_TIME)) {
+// 차단 여부 확인
+if (!empty($mb['mb_is_intercepted']) && $mb['mb_is_intercepted'] == 1 && $mb['mb_intercept_date'] <= date("Ymd", G5_SERVER_TIME)) {
     $date = preg_replace("/([0-9]{4})([0-9]{2})([0-9]{2})/", "\\1년 \\2월 \\3일", $mb['mb_intercept_date']);
-    alert('회원님의 아이디는 접근이 금지되어 있습니다.\n처리일 : '.$date);
+    alert("접근이 제한된 계정입니다. 처리일: {$date}");
 }
 
-// 탈퇴한 아이디인가?
-if ($mb['mb_leave_date'] && $mb['mb_leave_date'] <= date("Ymd", G5_SERVER_TIME)) {
+// 탈퇴 여부 확인
+if (!empty($mb['mb_is_leave']) && $mb['mb_is_leave'] == 1 && $mb['mb_leave_date'] <= date("Ymd", G5_SERVER_TIME)) {
     $date = preg_replace("/([0-9]{4})([0-9]{2})([0-9]{2})/", "\\1년 \\2월 \\3일", $mb['mb_leave_date']);
-    alert('탈퇴한 아이디이므로 접근하실 수 없습니다.\n탈퇴일 : '.$date);
+    alert("탈퇴한 계정입니다. 탈퇴일: {$date}");
 }
 
-// 메일인증 설정이 되어 있다면
-if ( is_use_email_certify() && !preg_match("/[1-9]/", $mb['mb_email_certify'])) {
-    $ckey = md5($mb['mb_ip'].$mb['mb_datetime']);
-    confirm("{$mb['mb_email']} 메일로 메일인증을 받으셔야 로그인 가능합니다. 다른 메일주소로 변경하여 인증하시려면 취소를 클릭하시기 바랍니다.", G5_URL, G5_BBS_URL.'/register_email.php?mb_id='.$mb_id.'&ckey='.$ckey);
+// 이메일 인증 여부 확인
+if (is_use_email_certify() && (!isset($mb['mb_email_certify']) || $mb['mb_email_certify'] !== 'Y')) {
+    alert("이메일 인증을 완료한 후 로그인할 수 있습니다.");
 }
 
-run_event('login_session_before', $mb, $is_social_login);
+// ✅ 로그인 성공 처리
 
-@include_once($member_skin_path.'/login_check.skin.php');
+// 세션 고정 공격 방지
+session_regenerate_id(true);
 
-if (! (defined('SKIP_SESSION_REGENERATE_ID') && SKIP_SESSION_REGENERATE_ID)) {
-    session_regenerate_id(false);
-    if (function_exists('session_start_samesite')) {
-        session_start_samesite();
-    }
-}
-
-// 회원아이디 세션 생성
+// 세션에 로그인 정보 저장
 set_session('ss_mb_id', $mb['mb_id']);
-// FLASH XSS 공격에 대응하기 위하여 회원의 고유키를 생성해 놓는다. 관리자에서 검사함
+
+// 세션 내 토큰 제거
+unset($_SESSION['login_token']);
+
+// 사용자 인증 키 생성
 generate_mb_key($mb);
 
-// 회원의 토큰키를 세션에 저장한다. /common.php 에서 해당 회원의 토큰값을 검사한다.
-if(function_exists('update_auth_session_token')) update_auth_session_token($mb['mb_datetime']);
+// 로그인 성공 로그 기록
+$sql = "INSERT INTO g5_login_log (mb_id, ip_address, user_agent, login_datetime, success)
+        VALUES ('{$mb['mb_id']}', '{$ip_address}', '{$_SERVER['HTTP_USER_AGENT']}', NOW(), 'Y')";
+sql_query($sql);
 
-// 포인트 체크
-if($config['cf_use_point']) {
-    $sum_point = get_point_sum($mb['mb_id']);
-
-    $sql= " update {$g5['member_table']} set mb_point = '$sum_point' where mb_id = '{$mb['mb_id']}' ";
-    sql_query($sql);
-}
-
-// 3.26
-// 아이디 쿠키에 한달간 저장
-if (isset($auto_login) && $auto_login) {
-    // 3.27
-    // 자동로그인 ---------------------------
-    // 쿠키 한달간 저장
-    $key = md5($_SERVER['SERVER_ADDR'] . $_SERVER['SERVER_SOFTWARE'] . $_SERVER['HTTP_USER_AGENT'] . $mb['mb_password']);
-    set_cookie('ck_mb_id', $mb['mb_id'], 86400 * 31);
-    set_cookie('ck_auto', $key, 86400 * 31);
-    // 자동로그인 end ---------------------------
-} else {
-    set_cookie('ck_mb_id', '', 0);
-    set_cookie('ck_auto', '', 0);
-}
-
-if ($url) {
-    // url 체크
-    check_url_host($url, '', G5_URL, true);
-
-    $link = urldecode($url);
-    // 2003-06-14 추가 (다른 변수들을 넘겨주기 위함)
-    if (preg_match("/\?/", $link))
-        $split= "&amp;";
-    else
-        $split= "?";
-
-    // $_POST 배열변수에서 아래의 이름을 가지지 않은 것만 넘김
-    $post_check_keys = array('mb_id', 'mb_password', 'x', 'y', 'url');
-    
-    //소셜 로그인 추가
-    if($is_social_login){
-        $post_check_keys[] = 'provider';
-    }
-
-    $post_check_keys = run_replace('login_check_post_check_keys', $post_check_keys, $link, $is_social_login);
-
-    foreach($_POST as $key=>$value) {
-        if ($key && !in_array($key, $post_check_keys)) {
-            $link .= "$split$key=$value";
-            $split = "&amp;";
-        }
-    }
-
-} else  {
-    $link = G5_URL;
-}
-
-//소셜 로그인 추가
-if(function_exists('social_login_success_after')){
-    // 로그인 성공시 소셜 데이터를 기존의 데이터와 비교하여 바뀐 부분이 있으면 업데이트 합니다.
-    $link = social_login_success_after($mb, $link);
-    social_login_session_clear(1);
-}
-
-//영카트 회원 장바구니 처리
-if(function_exists('set_cart_id')){
-    $member = $mb;
-
-    // 보관기간이 지난 상품 삭제
-    cart_item_clean();
-    set_cart_id('');
-    $s_cart_id = get_session('ss_cart_id');
-
-    $add_cart_where = '';
-
-    // 장바구니에서 주문하기를 하는 경우
-    if (strpos($link, 'orderform.php') !== false) {
-        $add_cart_where = " and ct_select_time < '".date('Y-m-d H:i:s', strtotime('-1 hour', G5_SERVER_TIME))."' ";
-    }
-
-    // 선택필드 초기화
-    $sql = " update {$g5['g5_shop_cart_table']} set ct_select = '0' where od_id = '$s_cart_id' $add_cart_where ";
-    sql_query($sql);
-}
-
-run_event('member_login_check', $mb, $link, $is_social_login);
-
-// 관리자로 로그인시 DATA 폴더의 쓰기 권한이 있는지 체크합니다. 쓰기 권한이 없으면 로그인을 못합니다.
-if( is_admin($mb['mb_id']) && is_dir(G5_DATA_PATH.'/tmp/') ){
-    $tmp_data_file = G5_DATA_PATH.'/tmp/tmp-write-test-'.time();
-    $tmp_data_check = @fopen($tmp_data_file, 'w');
-    if($tmp_data_check){
-        if(! @fwrite($tmp_data_check, G5_URL)){
-            $tmp_data_check = false;
-        }
-    }
-    if (is_resource($tmp_data_check)) @fclose($tmp_data_check);
-    @unlink($tmp_data_file);
-
-    if(! $tmp_data_check){
-        alert("data 폴더에 쓰기권한이 없거나 또는 웹하드 용량이 없는 경우\\n로그인을 못할수도 있으니, 용량 체크 및 쓰기 권한을 확인해 주세요.", $link);
-    }
-}
-
-goto_url($link);
+// 로그인 후 이동
+$url = $_POST['url'] ?? G5_URL;
+goto_url($url);

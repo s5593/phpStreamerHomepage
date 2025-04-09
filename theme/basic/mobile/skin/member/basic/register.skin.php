@@ -7,11 +7,6 @@ add_stylesheet('<link rel="stylesheet" href="'.$member_skin_url.'/style.css">', 
 
 <div class="mbskin">
 
-    <?php
-    // 소셜로그인 사용시 소셜로그인 버튼
-    @include_once(get_social_skin_path().'/social_register.skin.php');
-    ?>
-
     <form name="fregister" id="fregister" action="<?php echo $register_action_url ?>" onsubmit="return fregister_submit(this);" method="POST" autocomplete="off">
 	
 	<p>회원가입약관 및 개인정보 수집 및 이용의 내용에 동의하셔야 회원가입 하실 수 있습니다.</p>
