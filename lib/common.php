@@ -21,3 +21,13 @@ function generate_csrf_token() {
 function verify_csrf_token($token) {
     return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
 }
+
+function get_base_url() {
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+    return $protocol . $_SERVER['HTTP_HOST'] . '/phpStreamerHomepage';
+}
+
+function redirect_to($relative_path) {
+    header("Location: " . get_base_url() . $relative_path);
+    exit;
+}
