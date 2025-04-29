@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 40px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.complete-box {
+    display: inline-block;
+    padding: 30px 40px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.complete-box h2 {
+    margin-bottom: 15px;
+}
+
+.complete-box p {
+    margin-bottom: 25px;
+    color: #444;
+}
+
+.btn-go-login {
+    display: inline-block;
+    background-color: #222;
+    color: white;
+    padding: 10px 24px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+}
+
+.btn-go-login:hover {
+    background-color: #444;
+}

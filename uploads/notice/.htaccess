@@ -1,0 +1,7 @@
+# .php, .phtml, .php5, .phar 파일 실행 금지
+<FilesMatch "\.(php|php[0-9]|phtml|phar)$">
+    Deny from all
+</FilesMatch>
+
+# 인덱스 파일 없이 접근해도 목록 안보이게 하기
+Options -Indexes

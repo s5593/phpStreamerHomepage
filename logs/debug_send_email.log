@@ -1,0 +1,33 @@
+테스트
+테스트1
+테스트2
+테스트1
+테스트2
+테스트3
+테스트4
+테스트5
+테스트6
+테스트7
+테스트8
+테스트9
+실행 명령어: 
+윈도우 처리
+2025-04-19 14:44:21
+실행 명령어: cmd /c "D:\0.realProject\xampp\htdocs\php\auth\send_email_windows.bat "2dc7e75b1b3104c3ba3b27fc3c8978ffb84521e1bfbef8001f0b31eab1eeb309" "s5593@naver.com""
+
+2025-04-19 14:44:21실행 시도 완료
+
+실행 명령어: 
+윈도우 처리
+2025-04-19 15:01:14
+실행 명령어: cmd /c "D:\0.realProject\xampp\htdocs\php\auth\send_email_windows.bat "03122df61536f2e413ed675c1a69ac52705c266d76b12a1f50f35eebfd8551fc" "s5593@naver.com""
+
+2025-04-19 15:01:14실행 시도 완료
+
+실행 명령어: 
+윈도우 처리
+2025-04-19 15:08:32
+실행 명령어: cmd /c "D:\0.realProject\xampp\htdocs\php\auth\send_email_windows.bat "98b476b0406a5abfad81ab82d3a66ea4aee707a0b5ec3adf563bbd099fcecd23" "s5593@naver.com""
+
+2025-04-19 15:08:32실행 시도 완료
+

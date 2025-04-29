@@ -1,0 +1,189 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Pretendard-Regular';
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #0e0813;
+    color: white;
+    user-select: none;
+}
+
+header {
+    background-color: #121212;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, rgba(29, 22, 32, 0.8), rgb(61, 33, 82, 0.8));
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 100%);
+    border-image-slice: 1;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 80%;
+}
+
+.logo img {
+    height: 60px;
+    -webkit-user-drag: none;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li {
+    display: inline-block;
+    text-align: center;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+    display: block;
+    text-align: center;
+}
+
+nav ul li a:hover {
+    color: #c39eff;
+}
+
+.hero-banner {
+    position: relative;
+    text-align: center;
+}
+
+.hero-banner img {
+    width: 70%;
+    display: block;
+    -webkit-user-drag: none;
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 40%;
+    left: 75%;
+}
+
+.hero-text h1 {
+    font-size: 20px;
+}
+
+.hero-text h2 {
+    font-size: 35px;
+}
+
+.watch-btn {
+    font-family: 'Pretendard-Regular';
+    background: #ffcc0000;
+    color: #fff;
+    border: 2px solid #fff;
+    padding: 15px 25px;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.25s ease-in-out;
+}
+
+.watch-btn:hover {
+    color: #000;
+    background: rgb(255, 187, 0);
+    border: 2px solid #ffffff00;
+}
+
+.news-section {
+    text-align: center;
+    padding: 40px;
+}
+
+.news-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.news-card {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 5px;
+    width: 30%;
+    text-align: left;
+    background: linear-gradient(to bottom, rgba(29, 22, 32, 0.8), rgb(61, 33, 82, 0.8));
+    border: 1px solid transparent;
+    border-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 100%);
+    border-image-slice: 1;
+}
+
+.news-card img {
+    width: 100%;
+    border-radius: 5px;
+    -webkit-user-drag: none;
+}
+
+.featured-games {
+    text-align: center;
+    padding: 40px;
+}
+
+.game-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.game-item {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 5px;
+    width: 30%;
+    text-align: left;
+    background: linear-gradient(to bottom, rgba(29, 22, 32, 0.8), rgb(61, 33, 82, 0.8));
+    border: 1px solid transparent;
+    border-image: linear-gradient(to right, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0.1) 100%);
+    border-image-slice: 1;
+}
+
+.game-item img {
+    width: 100%;
+    border-radius: 5px;
+    -webkit-user-drag: none;
+}
+
+main {
+    padding: 40px;
+    text-align: center;
+}
+
+h3 {
+    font-size: 20px;
+    margin: 5px 0;
+}

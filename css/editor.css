@@ -1,0 +1,128 @@
+/* 에디터 기본 영역 */
+#editor {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 에디터 본문 (Preview 내용) */
+.toastui-editor-contents {
+    background-color: #fff;
+    color: #333;
+    font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* Markdown 작성창 컨테이너 */
+.toastui-editor-md-container {
+    background-color: #fff;
+}
+
+/* Markdown 작성창 textarea */
+.toastui-editor-md-container textarea {
+    background-color: #fff;
+    color: #333;
+    font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    border: none;
+    resize: none;
+}
+
+/* Write / Preview 탭 글자 투명 처리 */
+.toastui-editor-tabs .tab-item {
+    color: transparent;
+}
+/* Markdown / WYSIWYG 버튼 글자 투명 처리 */
+.toastui-editor-mode-switch .tab-item {
+    color: transparent;
+}
+
+/* WYSIWYG 에디터 영역 */
+.toastui-editor-ww-container {
+    background-color: #fff;
+    color: #333;
+}
+
+/* 이미지 반응형 */
+.toastui-editor-contents img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* 비디오 반응형 */
+.toastui-editor-contents video {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+/* 코드 블록 (pre) */
+.toastui-editor-contents pre {
+    background-color: #f6f8fa;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 14px;
+}
+
+/* 하이퍼링크 스타일 */
+.toastui-editor-contents a {
+    color: #0070f3;
+    text-decoration: underline;
+}
+
+/* 툴바 드롭다운 메뉴 (Heading 선택 등) */
+.toastui-editor-dropdown-toolbar {
+    background-color: #fff !important;
+    color: #333 !important;
+    border: 1px solid #ccc;
+}
+
+/* 드롭다운 메뉴 항목 */
+.toastui-editor-dropdown-toolbar li {
+    background-color: #fff !important;
+    color: #333 !important;
+}
+
+/* 드롭다운 메뉴 hover 효과 */
+.toastui-editor-dropdown-toolbar li:hover {
+    background-color: #f0f0f0 !important;
+}
+
+/* 에디터 텍스트 영역 */
+.ql-editor {
+    background-color: #fff !important;
+    color: #000 !important;
+  }
+  
+  /* 툴바 영역 */
+  .ql-toolbar {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #ccc;
+  }
+  
+  /* 툴바 버튼 아이콘 (SVG) 색상 */
+  .ql-toolbar .ql-picker,
+  .ql-toolbar .ql-stroke {
+    stroke: #000 !important;
+  }
+  
+  .ql-toolbar .ql-fill {
+    fill: #000 !important;
+  }
+  
+  .ql-toolbar .ql-picker-label,
+  .ql-toolbar .ql-picker-options {
+    color: #000 !important;
+  }
+  
+  /* 에디터 전체 박스 스타일 정리 */
+  #editor {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }

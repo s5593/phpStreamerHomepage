@@ -1,0 +1,208 @@
+/* 기본 리셋 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #000;
+  color: #eee;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+  padding-top: 100px; /* 헤더 공간 확보 */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* ======= 배너 영역 ======= */
+.banner-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+  padding: 60px 20px;
+  gap: 50px;
+}
+
+/* 왼쪽 Swiper 배너 */
+.banner-left {
+  flex: 1;
+  max-width: 70%;
+}
+
+.banner-left .swiper {
+  width: 100%;
+  height: calc(100vw * 9 / 16);
+  max-height: 600px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* 오른쪽 텍스트 */
+.banner-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.banner-right .team-name {
+  font-size: 18px;
+  color: #aaa;
+  letter-spacing: 2px;
+}
+
+.banner-right .coming-soon {
+  font-size: 36px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.banner-right .button {
+  margin-top: 10px;
+  padding: 12px 24px;
+  border: 1px solid #fff;
+  background: none;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.banner-right .button:hover {
+  background-color: #6a0dad;
+  color: #fff;
+}
+
+/* ======= 공지사항 영역 ======= */
+.notice-section {
+  max-width: 1200px;
+  margin: 30px auto 0;
+  padding: 40px 20px;
+}
+
+.notice-section h3 {
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+/* 카드 그리드 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* 공지사항 카드 */
+.main-notice-link {
+  display: block;
+  background-color: #111;
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.main-notice-link:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+}
+
+.main-notice-link .card-image img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.main-notice-link .card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.main-notice-link .card-content h4 {
+  font-size: 18px;
+  color: #fff;
+}
+
+.main-notice-link .card-content p {
+  font-size: 14px;
+  color: #ccc;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.main-notice-link .card-content .date {
+  font-size: 13px;
+  color: #777;
+}
+
+/* 공지 없음 표시 */
+.main-notice-empty {
+  text-align: center;
+  font-size: 16px;
+  color: #aaa;
+  padding: 60px 0;
+}
+
+/* ======= 반응형 대응 ======= */
+@media (max-width: 1024px) {
+  .banner-wrapper {
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px 20px;
+  }
+
+  .banner-left {
+    max-width: 100%;
+  }
+
+  .banner-right {
+    align-items: center;
+    text-align: center;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-notice-link .card-image img {
+    height: 140px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .main-notice-link .card-image img {
+    height: 120px;
+  }
+
+  .notice-section {
+    padding: 20px 0;
+  }
+
+  .notice-section h3 {
+    font-size: 20px;
+  }
+
+  .banner-right .coming-soon {
+    font-size: 28px;
+  }
+}

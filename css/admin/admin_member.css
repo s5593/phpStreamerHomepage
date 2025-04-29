@@ -1,0 +1,23 @@
+.member-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.member-table th, .member-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.member-table th {
+    background-color: #f8f8f8;
+}
+.btn {
+    padding: 6px 12px;
+    margin: 4px;
+    text-decoration: none;
+    border: 1px solid #333;
+    display: inline-block;
+}
+.btn-edit {
+    background: #4CAF50;
+    color: white;
+}

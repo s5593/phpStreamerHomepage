@@ -1,0 +1,12 @@
+<FilesMatch "\.(php|php5|php7|sh|pl|cgi|py|exe)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+php_flag engine off
+RemoveHandler .php .php5 .php7 .pl .py .sh .cgi .exe
+AddType video/mp4 .mp4
+
+<FilesMatch "\.mp4$">
+  Require all granted
+</FilesMatch>

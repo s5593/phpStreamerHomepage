@@ -1,0 +1,12 @@
+.keyword-item {
+    padding: 4px 10px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    border-radius: 12px;
+    font-size: 14px;
+}
+.keyword-item:hover {
+    background: #e0f0ff;
+    color: #0077cc;
+}
+  
