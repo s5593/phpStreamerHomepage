@@ -29,15 +29,12 @@ foreach ($deny_keywords as $deny) {
     }
 }
 
+// 검색 로그 저장
 save_search_log($keyword);
 
 // Rate Limit (IP or 사용자 기준 제한 - 예시)
 $ip = $_SERVER['REMOTE_ADDR'];
 rate_limit_check("video_search:$ip", 5, 10); // 10초에 5회 이하
-
-// 검색 로그 저장
-include_once(__DIR__ . '/search_log.php');
-save_search_log($keyword);
 
 // 정렬 기준
 $order_by = match($sort) {
