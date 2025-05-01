@@ -151,6 +151,27 @@ body {
   .page-button.active {
     background: #6a0dad;
   }
+  #popular-keywords {
+    margin-top: 20px;
+  }
+  #keyword-buttons {
+    margin: 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .keyword-btn {
+    background-color: #333;
+    color: #eee;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .keyword-btn:hover {
+    background-color: #6a0dad;
+  }
+  
 
   /* view.php */
   .video-view-container {
@@ -194,6 +215,52 @@ body {
   .back-link:hover {
     text-decoration: underline;
   }
+  .video-like-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .video-like-btn {
+    background-color: #fff;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .video-like-btn:hover {
+    box-shadow: 0 0 10px rgba(106, 13, 173, 0.5);
+  }
+  
+  .like-icon {
+    font-size: 24px;
+    color: #e0245e; /* 기본 하트 색상 */
+  }
+
+  .video-keywords {
+    margin: 12px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .keyword-button {
+    background-color: #333;
+    color: #eee;
+    border: none;
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 20px;
+    cursor: default;
+    opacity: 1;
+  }
+  
   
   /* write.php */
   .video-buttons {
@@ -259,4 +326,49 @@ body {
     border: 1px solid #333;
     border-radius: 6px;
   }
+
+  .form-button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  .save-button,
+  .cancel-button {
+    display: inline-flex;              /* ✅ 내부 수직 정렬 포함 */
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
+    height: 42px;                      /* ✅ 명시적 높이 고정 */
+    line-height: 1;                   /* ✅ 폰트 높이 영향 제거 */
+    vertical-align: middle;          /* ✅ 버튼/링크 수직 위치 통일 */
+  }
+  
+  /* 버튼별 색상 */
+  .save-button {
+    background-color: #6a0dad;
+    color: white;
+  }
+  
+  .save-button:hover {
+    background-color: #5a0ca5;
+  }
+  
+  .cancel-button {
+    background-color: #555;
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: #777;
+  }
+  
+  
   

@@ -39,6 +39,21 @@ if (current_user_no() !== intval($post['user_id'])) {
   show_alert_and_back('수정 권한이 없습니다.');
 }
 
+function restore_full_url($video_id) {
+  if (preg_match('/^[a-zA-Z0-9_-]{11}$/', $video_id)) {
+      // YouTube 기본 링크로 복원
+      return "https://www.youtube.com/watch?v={$video_id}";
+  }
+  if (preg_match('/^[a-zA-Z0-9]+$/', $video_id)) {
+      // 치지직 클립이라면
+      return "https://chzzk.naver.com/clips/{$video_id}";
+  }
+  // 이미 URL이면 그대로 사용
+  return $video_id;
+}
+
+$video_url = restore_full_url($post['video_url'] ?? '');
+
 ?>
 
 <!DOCTYPE html>
@@ -66,12 +81,18 @@ if (current_user_no() !== intval($post['user_id'])) {
 
     <div class="form-group">
       <label for="video_url">영상 URL</label>
-      <input type="text" id="video_url" name="video_url" required maxlength="255" value="<?= htmlspecialchars($post['video_url']) ?>">
+      <input type="text" id="video_url" name="video_url"
+            value="<?= htmlspecialchars($video_url) ?>" required maxlength="255">
     </div>
 
-    <div class="video-buttons">
-      <button type="submit" class="video-button edit">수정 완료</button>
-      <a href="/html/video/list.php" class="video-button list">목록으로</a>
+    <div class="form-group">
+      <label for="keywords">추천 키워드 (쉼표로 구분)</label>
+      <input type="text" id="keywords" name="keywords" class="form-control" placeholder="예: 액션,롤플레잉,트위치" value="<?= htmlspecialchars($post['keywords']) ?>">
+    </div>
+
+    <div class="form-button-group">
+      <button type="submit" class="save-button">저장하기</button>
+      <button type="button" class="cancel-button" onclick="location.href='view.php?id=<?= $post['id'] ?>'">취소</button>
     </div>
   </form>
 </div>

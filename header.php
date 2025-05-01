@@ -3,8 +3,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 $logged_in = isset($_SESSION['mb_id']);
 $nickname = $_SESSION['mb_id'] ?? '';
 $is_admin = isset($_SESSION['mb_level']) && $_SESSION['mb_level'] >= 3;
+
 $message = get_flash_message();
-if ($message):
+if (!empty($message)):  // null, 빈 문자열, false 모두 방지됨
 ?>
 <script>alert("<?= htmlspecialchars($message) ?>");</script>
 <?php endif; ?>

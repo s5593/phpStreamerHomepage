@@ -6,7 +6,7 @@ body {
     padding: 0;
   }
   
-  .complete-container {
+  .result-container {
     max-width: 500px;
     margin: 120px auto;
     background-color: #111;
@@ -16,13 +16,13 @@ body {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
   }
   
-  .complete-container h2 {
+  .result-container h2 {
     font-size: 22px;
     margin-bottom: 20px;
     color: #fff;
   }
   
-  .complete-container p {
+  .result-container p {
     font-size: 15px;
     margin: 8px 0;
     color: #ccc;

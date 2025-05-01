@@ -1,15 +1,17 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
+    $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || 
+                (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443);
 
     session_set_cookie_params([
         'lifetime' => 0,
         'path' => '/',
         'domain' => '',
-        'secure' => $is_https, // 로컬에서는 false, HTTPS에서는 true
+        'secure' => $is_https,
         'httponly' => true,
         'samesite' => 'Strict'
     ]);
+
     session_start();
 }
 

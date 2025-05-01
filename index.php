@@ -1,5 +1,6 @@
 <?php
-// index.php
+include_once(__DIR__ . '/lib/common.php');
+include_once(__DIR__ . '/lib/common_auth.php');
 include_once('./php/data/banner_data.php');
 include_once('./php/data/notice_data.php');
 ?>

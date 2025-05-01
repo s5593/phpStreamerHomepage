@@ -34,9 +34,14 @@ if (!is_logged_in()) {
       <input type="text" id="video_url" name="video_url" required maxlength="255" placeholder="유튜브 URL 또는 치지직 URL">
     </div>
 
-    <div class="video-buttons">
-      <button type="submit" class="video-button edit">등록하기</button>
-      <a href="/html/video/list.php" class="video-button list">목록으로</a>
+    <div class="form-group">
+      <label for="keywords">추천 키워드 (쉼표로 구분)</label>
+      <input type="text" id="keywords" name="keywords" class="form-control" placeholder="예: 액션,롤플레잉,트위치" value="<?= htmlspecialchars($keywords ?? '') ?>">
+    </div>
+
+    <div class="form-button-group">
+      <button type="submit" class="save-button">저장하기</button>
+      <button type="button" class="cancel-button" onclick="location.href='list.php'">목록으로</button>
     </div>
   </form>
 </div>

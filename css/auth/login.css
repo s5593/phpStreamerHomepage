@@ -1,0 +1,94 @@
+/* 전체 배경 및 폰트 설정 */
+body {
+    background-color: #000;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 로그인 카드 컨테이너 */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 80px auto; /* ⬅ 수평 중앙 정렬 */
+    padding: 40px;
+    border-radius: 8px;
+    background-color: #111;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+/* 제목 */
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 22px;
+    color: #eee;
+}
+
+/* 라벨 */
+label {
+    display: block;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* 입력박스 스타일 */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    background-color: #222;
+    border: none;
+    border-radius: 6px;
+    color: #eee;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* 로그인 버튼 스타일 */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    margin-top: 25px;
+    background-color: #6a0dad;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #5a0ca5;
+}
+
+/* 하단 링크 영역 */
+.login-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-links a {
+    color: #aaa;
+    text-decoration: none;
+    margin: 0 8px;
+    transition: color 0.2s;
+}
+
+.login-links a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.login-links span {
+    color: #444;
+}

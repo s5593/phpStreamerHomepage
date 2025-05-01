@@ -3,21 +3,36 @@ include_once(__DIR__ . '/../../lib/common.php');
 include_once(__DIR__ . '/../../lib/common_auth.php');
 
 $is_logged_in = current_user_id() !== null;
+
+// GET 파라미터
 $search = trim($_GET['q'] ?? '');
+$search_type = $_GET['type'] ?? 'subject';
 $page = max(1, intval($_GET['page'] ?? 1));
 $page_size = 8;
 $offset = ($page - 1) * $page_size;
 
+// SQL 준비
 $where = 'WHERE is_use = 1';
 $params = [];
 $types = '';
 
+// 검색 조건 처리
 if ($search) {
-    $where .= ' AND subject LIKE ?';
-    $params[] = '%' . $search . '%';
-    $types .= 's';
+    if ($search_type === 'keywords') {
+        $keywords = array_filter(array_map('trim', explode(',', $search)));
+        foreach ($keywords as $kw) {
+            $where .= ' AND keywords LIKE ?';
+            $params[] = '%' . $kw . '%';
+            $types .= 's';
+        }
+    } else {
+        $where .= ' AND subject LIKE ?';
+        $params[] = '%' . $search . '%';
+        $types .= 's';
+    }
 }
 
+// 총 개수 쿼리
 $sql_count = "SELECT COUNT(*) as cnt FROM board_video $where";
 $stmt = $conn->prepare($sql_count);
 if ($types) $stmt->bind_param($types, ...$params);
@@ -25,6 +40,7 @@ $stmt->execute();
 $total = $stmt->get_result()->fetch_assoc()['cnt'];
 $stmt->close();
 
+// 게시글 조회 쿼리
 $sql = "SELECT V.id, V.subject, V.video_url, V.created_at, M.mb_id
         FROM board_video V
         JOIN g5_member M ON V.user_id = M.mb_no
@@ -45,9 +61,10 @@ $result = $stmt->get_result();
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>경상 목록</title>
+  <title>클립 목록</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/video/style.css">
+  <link rel="stylesheet" href="/css/video/search.css">
 </head>
 <body>
 <?php include_once(__DIR__ . '/../../header.php'); ?>
@@ -59,10 +76,7 @@ $result = $stmt->get_result();
       <?php endif; ?>
     </div>
 
-    <form method="get" action="list.php" class="search-form">
-      <input type="text" name="q" value="<?= htmlspecialchars($search) ?>" placeholder="검색어 입력" class="search-input">
-      <button type="submit" class="search-button">검색</button>
-    </form>
+    <?php include_once(__DIR__ . '/search.php'); ?>
 
     <div class="card-grid">
       <?php while ($row = $result->fetch_assoc()): ?>

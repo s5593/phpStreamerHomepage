@@ -1,45 +1,77 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const keywordContainer = document.getElementById('keyword-list');
-    const searchInput = document.getElementById('search-input');
-    const searchBtn = document.getElementById('search-btn');
-  
-    fetch('/php/video/get_keyword_recommendations.php')
+  const keywordBox = document.getElementById('keyword-buttons');
+  const personalBox = document.getElementById('personal-list');
+  const keywordContainer = document.getElementById('popular-keywords');
+  const personalContainer = document.getElementById('personal-keywords');
+  const searchInput = document.getElementById('search-input');
+
+  // 🔥 인기 키워드
+  fetch('/php/video/get_keyword_recommendations.php')
+    .then(res => res.json())
+    .then(data => {
+      const keywords = data.keywords || [];
+      if (keywords.length === 0) {
+        if (keywordContainer) keywordContainer.style.display = 'none';
+        return;
+      }
+
+      keywordBox.innerHTML = '';
+      keywords.slice(0, 5).forEach(word => {
+        const btn = document.createElement('button');
+        btn.textContent = word;
+        btn.className = 'keyword-item';
+        btn.style.marginRight = '8px';
+        btn.style.cursor = 'pointer';
+
+        btn.addEventListener('click', () => {
+          goToSearch(word, 'keywords');
+        });
+
+        keywordBox.appendChild(btn);
+      });
+    })
+    .catch(err => {
+      console.error('추천 키워드 실패:', err);
+      if (keywordContainer) keywordContainer.style.display = 'none';
+    });
+
+  // 🎯 개인화 추천 키워드
+  if (typeof USER_ID !== 'undefined' && USER_ID && personalBox && personalContainer) {
+    fetch('/php/video/get_user_recommendations.php')
       .then(res => res.json())
       .then(data => {
         const keywords = data.keywords || [];
-  
         if (keywords.length === 0) {
-          keywordContainer.innerHTML = '<p>추천 키워드가 없습니다.</p>';
+          personalContainer.style.display = 'none';
           return;
         }
-  
-        keywordContainer.innerHTML = '';
-        keywords.forEach(word => {
+
+        personalBox.innerHTML = '';
+        keywords.slice(0, 5).forEach(word => {
           const btn = document.createElement('button');
           btn.textContent = word;
           btn.className = 'keyword-item';
           btn.style.marginRight = '8px';
           btn.style.cursor = 'pointer';
-  
+
           btn.addEventListener('click', () => {
-            searchInput.value = word;
-            searchBtn.click();
+            goToSearch(word, 'keywords');
           });
-  
-          keywordContainer.appendChild(btn);
+
+          personalBox.appendChild(btn);
         });
       })
       .catch(err => {
-        console.error('추천 키워드 불러오기 실패:', err);
-        keywordContainer.innerHTML = '<p>불러오기 실패</p>';
-    });
+        console.error('개인화 추천 실패:', err);
+        personalContainer.style.display = 'none';
+      });
+  } else if (personalContainer) {
+    personalContainer.style.display = 'none';
+  }
+
+  function goToSearch(keyword, type = 'subject') {
+    const encoded = encodeURIComponent(keyword);
+    const target = `/html/video/list.php?q=${encoded}&type=${type}`;
+    location.href = target;
+  }
 });
-  
-if (USER_ID) {
-    fetch('/php/video/get_user_recommendations.php')
-    .then(res => res.json())
-    .then(data => {
-    // 원하는 위치에 append 또는 대체 출력 가능
-    console.log("개인화 추천 키워드", data.keywords);
-    });
-}

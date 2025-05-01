@@ -1,29 +1,27 @@
 <?php
 include_once(__DIR__ . '/../../lib/common.php');
 
-// 관리자 API가 아님 → 누구나 접근 가능
 header('Content-Type: application/json');
 
 $keywords = [];
 
-// 인기 키워드 10개 추출
-$stmt = $conn->prepare("
-    SELECT keyword FROM video_search_stats
-    ORDER BY count DESC
-    LIMIT 10
-");
-$stmt->execute();
-$result = $stmt->get_result();
+// 게시글에서 keywords 수집
+$result = $conn->query("SELECT keywords FROM board_video WHERE is_use = 1");
 
 while ($row = $result->fetch_assoc()) {
-    $kw = trim($row['keyword']);
-
-    // 간단한 금칙어 필터링
-    if (preg_match('/(욕|시발|fuck|sex)/i', $kw)) continue;
-
-    $keywords[] = htmlspecialchars($kw);
+    $raw = explode(',', $row['keywords']);
+    foreach ($raw as $kw) {
+        $word = trim($kw);
+        if ($word && !preg_match('/(욕|fuck|sex|시발)/i', $word)) {
+            $keywords[] = $word;
+        }
+    }
 }
 
-$stmt->close();
+$result->close();
 
-echo json_encode(['keywords' => $keywords]);
+// 중복 제거 + 상위 10개만
+$keywords = array_unique($keywords);
+$keywords = array_slice($keywords, 0, 10);
+
+echo json_encode(['keywords' => array_values($keywords)]);

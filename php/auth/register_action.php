@@ -4,11 +4,11 @@
 include_once(__DIR__ . '/../../lib/common.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirect_error("잘못된 접근입니다.");
+    redirect_with_message("잘못된 접근입니다.","/html/auth/register_form.php");
 }
 
 if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-    redirect_error("CSRF 토큰이 유용하지 않습니다.");
+    redirect_with_message("CSRF 토큰이 유용하지 않습니다.","/html/auth/register_form.php");
 }
 
 // 입력값 필터링
@@ -19,11 +19,11 @@ $mb_password_confirm = $_POST['mb_password_confirm'] ?? '';
 $mb_streamer_url = trim($_POST['mb_streamer_url'] ?? '');
 
 if (!$mb_id || !$mb_email || !$mb_password || !$mb_password_confirm) {
-    redirect_error("모든 필수 입력값을 입력해주세요.");
+    redirect_with_message("모든 필수 입력값을 입력해주세요.","/html/auth/register_form.php");
 }
 
 if ($mb_password !== $mb_password_confirm) {
-    redirect_error("비밀번호가 일치하지 않습니다.");
+    redirect_with_message("비밀번호가 일치하지 않습니다.","/html/auth/register_form.php");
 }
 
 // 중복 체크
@@ -35,7 +35,7 @@ $stmt->fetch();
 $stmt->close();
 
 if ($exists > 0) {
-    redirect_error("이미 사용 중인 아이디 또는 이메일입니다.");
+    redirect_with_message("이미 사용 중인 아이디 또는 이메일입니다.","/html/auth/register_form.php");
 }
 
 // 일회용 이메일 도메인 체크
@@ -49,7 +49,7 @@ function is_disposable_email($email) {
 }
 
 if (is_disposable_email($mb_email)) {
-    redirect_error("일회용 이메일 주소는 사용할 수 없습니다.");
+    redirect_with_message("일회용 이메일 주소는 사용할 수 없습니다.","/html/auth/register_form.php");
 }
 
 // 비밀번호 암호화
@@ -65,7 +65,7 @@ $stmt->bind_param("ssssss", $mb_id, $hashed_pw, $mb_email, $mb_streamer_url, $em
 
 if (!$stmt->execute()) {
     log_error("회원가입 INSERT 실패: " . $stmt->error);
-    redirect_error("회원가입 중 오류가 발생했습니다.");
+    redirect_with_message("회원가입 중 오류가 발생했습니다.","/html/auth/register_form.php");
 }
 $stmt->close();
 // 가입 완료 세션 설정 후 사용자 리다이렉트
@@ -76,21 +76,39 @@ ignore_user_abort(true);
 // 이메일 전송 비동기 처리
 $email_log = __DIR__ . '/../../logs/debug_send_email.log';
 $email_token_escaped = escapeshellarg($email_token);
+$verify_link = get_base_url() . "/php/auth/verify_email.php?token=$email_token_escaped";
 $mb_email_escaped = escapeshellarg($mb_email);
 $email_token_safe = addslashes($email_token);
 $mb_email_safe = addslashes($mb_email);
+$email_title_html = "[스트리머 홈페이지] 이메일 인증을 완료해주세요";
+$email_body_html = "
+        <div style='font-family: Arial, sans-serif;'>
+            <h3 style='color:#333;'>이메일 인증을 완료해주세요</h3>
+            <p>안녕하세요, 스트리머 홈페이지입니다.<br>
+            아래 버튼을 클릭하면 이메일 인증이 완료됩니다.</p>
+            <p style='margin:20px 0;'>
+                <a href='$verify_link' style='display:inline-block;padding:10px 20px;background:#222;color:#fff;text-decoration:none;border-radius:5px;'>
+                    이메일 인증하기
+                </a>
+            </p>
+        </div>
+    ";
+$email_AltBody_html = "이메일 인증 링크: $verify_link";
+$email_title = '"' . $email_title_html . '"';
+$body_escaped = '"' . base64_encode($email_body_html) . '"';
+$alt_escaped  = '"' . base64_encode($email_AltBody_html) . '"';
 file_put_contents($email_log, "실행 명령어: $shell_cmd\n", FILE_APPEND);
 
 if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
     // Windows: .bat 파일을 비동기로 proc_open으로 실행
     file_put_contents($email_log, "윈도우 처리\n", FILE_APPEND);
     $bat_path = realpath(__DIR__ . '/send_email_windows.bat');
-    $cmd = "cmd /c \"$bat_path $email_token_escaped $mb_email_escaped\"";
+    $cmd = "cmd /c \"$bat_path $mb_email_escaped $email_title $body_escaped $alt_escaped\"";
 } else {
     // Linux: .sh 파일 호출
     file_put_contents($email_log, "리눅스 처리\n", FILE_APPEND);
     $sh_path = realpath(__DIR__ . '/send_email_linux.sh');
-    $cmd = "sh \"$sh_path\" $email_token_escaped $mb_email_escaped";
+    $cmd = "sh \"$sh_path\" $mb_email_escaped $email_title $body_escaped $alt_escaped";
 }
 
 // 비동기 처리용 proc_open

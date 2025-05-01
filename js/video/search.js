@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBtn = document.getElementById('search-btn');
     const sortSelect = document.getElementById('sort-select');
     const resultList = document.getElementById('result-list');
+    const typeSelect = document.getElementById('search-type');
   
     function escapeHtml(text) {
       const map = {
@@ -87,4 +88,3 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-  
