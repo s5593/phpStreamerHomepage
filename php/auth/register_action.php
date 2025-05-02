@@ -70,6 +70,7 @@ if (!$stmt->execute()) {
 $stmt->close();
 // 가입 완료 세션 설정 후 사용자 리다이렉트
 $_SESSION['register_success'] = true;
+unset($_SESSION['agreed_to_terms']);
 header("Location: " . get_base_url() . "/html/auth/register_complete.php");
 flush();
 ignore_user_abort(true);
