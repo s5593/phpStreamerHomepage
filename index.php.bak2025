@@ -1,0 +1,93 @@
+<?php
+// 테스트용: 저장된 URL 입력
+$video_url = $_GET['url'] ?? 'https://www.youtube.com/shorts/0_v6y6dC1e0'; // 기본값은 유튜브 Shorts
+
+function is_youtube_url($url) {
+    return preg_match('/(youtu\.be\/|youtube\.com\/(watch\?v=|shorts\/))/', $url);
+}
+
+function is_chzzk_url($url) {
+    return preg_match('/chzzk\.naver\.com\/(?:clips|embed\/clip|video\/clip)\/([a-zA-Z0-9]+)/', $url);
+}
+
+function get_embed_url($url) {
+    if (is_youtube_url($url)) {
+        preg_match('/(?:v=|\/shorts\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $url, $matches);
+        $video_id = $matches[1] ?? '';
+        return "https://www.youtube.com/embed/{$video_id}";
+    }
+
+    if (is_chzzk_url($url)) {
+        preg_match('/clips\/([a-zA-Z0-9]+)/', $url, $matches);
+        $clip_id = $matches[1] ?? '';
+        return "https://chzzk.naver.com/embed/clip/{$clip_id}";
+    }
+
+    return null;
+}
+
+$embed_url = get_embed_url($video_url);
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>iframe 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: sans-serif;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    iframe {
+      width: 100%;
+      height: 450px;
+      border: none;
+      margin-top: 20px;
+    }
+    input[type="text"] {
+      width: 100%;
+      max-width: 600px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 20px;
+      font-size: 16px;
+      background: #6a0dad;
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .error {
+      margin-top: 20px;
+      color: #f66;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎥 iframe 영상 테스트</h1>
+    <form method="get" action="index.php">
+      <input type="text" name="url" value="<?= htmlspecialchars($video_url) ?>" placeholder="YouTube or 치지직 URL 입력">
+      <br>
+      <button type="submit">테스트 시작</button>
+    </form>
+
+    <?php if ($embed_url): ?>
+      <iframe src="<?= htmlspecialchars($embed_url) ?>" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <?php else: ?>
+      <p class="error">⚠️ 지원하지 않는 URL입니다. 유튜브(Shorts/Watch) 또는 치지직 클립만 가능합니다.</p>
+    <?php endif; ?>
+  </div>
+</body>
+</html>

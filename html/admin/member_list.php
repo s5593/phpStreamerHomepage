@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__ . '/../../db/dbconn.php');
+include_once(__DIR__ . '/../../lib/common.php');
 
 // 관리자 인증
 if (session_status() === PHP_SESSION_NONE) session_start();
