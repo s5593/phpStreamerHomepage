@@ -33,32 +33,34 @@ if (!$member) {
 <head>
     <meta charset="UTF-8">
     <title>회원 레벨 수정</title>
-    <link rel="stylesheet" href="/css/admin/admin_member.css">
+    <link rel="stylesheet" href="/css/admin/style.css">
 </head>
 <body>
-<?php include_once(__DIR__ . '/../../header.php'); ?>
-<h2>회원 레벨 수정</h2>
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
+    <h2 class="admin-member__title">회원 레벨 수정</h2>
 
-<form action="../../php/admin/member_edit_action.php" method="post">
+    <form action="../../php/admin/member_edit_action.php" method="post" class="admin-member__form">
     <input type="hidden" name="mb_id" value="<?= htmlspecialchars($member['mb_id']) ?>">
 
-    <div>
-        <label>아이디: <?= htmlspecialchars($member['mb_id']) ?></label>
+    <div class="admin-member__group">
+        <label class="admin-member__label">아이디: <?= htmlspecialchars($member['mb_id']) ?></label>
     </div>
-    <div>
-        <label for="mb_level">레벨 수정</label><br>
-        <select name="mb_level" id="mb_level">
-            <?php for ($i = 1; $i <= 4; $i++): ?>
-                <option value="<?= $i ?>" <?= $member['mb_level'] == $i ? 'selected' : '' ?>><?= $i ?></option>
-            <?php endfor; ?>
+
+    <div class="admin-member__group">
+        <label for="mb_level" class="admin-member__label">레벨 수정</label>
+        <select name="mb_level" id="mb_level" class="admin-member__select">
+        <?php for ($i = 1; $i <= 4; $i++): ?>
+            <option value="<?= $i ?>" <?= $member['mb_level'] == $i ? 'selected' : '' ?>><?= $i ?></option>
+        <?php endfor; ?>
         </select>
     </div>
 
-    <div style="margin-top:15px;">
-        <button type="submit" class="btn btn-edit">저장하기</button>
-        <a href="member_list.php" class="btn">목록으로</a>
+    <div class="admin-member__button-group">
+        <button type="submit" class="admin-member__btn admin-member__btn--submit">저장하기</button>
+        <a href="member_list.php" class="admin-member__btn">목록으로</a>
     </div>
-</form>
-<?php include_once(__DIR__ . '/../../footer.php'); ?>
+    </form>
+
+    <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>
 </html>

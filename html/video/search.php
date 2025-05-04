@@ -10,10 +10,10 @@ $search_type = $_GET['type'] ?? 'subject';
 ?>
 
 <!-- 검색 폼 -->
-<form method="get" action="list.php" class="search-form">
+<form method="get" action="list.php" class="video__search-form">
   <!-- select + input -->
-  <div class="search-top-row">
-    <select name="type" class="search-type">
+  <div class="video__search-row">
+    <select name="type" class="video__search-type">
       <option value="subject" <?= $search_type === 'subject' ? 'selected' : '' ?>>제목</option>
       <option value="keywords" <?= $search_type === 'keywords' ? 'selected' : '' ?>>키워드</option>
     </select>
@@ -21,32 +21,31 @@ $search_type = $_GET['type'] ?? 'subject';
     <input type="text" name="q"
            value="<?= htmlspecialchars($search) ?>"
            placeholder="검색어 입력"
-           class="search-input">
+           class="video__search-input">
   </div>
 
   <!-- 버튼 그룹 -->
-  <div class="search-button-row">
-    <button type="submit" class="search-button">검색</button>
-    <button type="button" class="reset-button" onclick="location.href='list.php'">초기화</button>
+  <div class="video__search-button-row">
+    <button type="submit" class="video__search-btn video__search-btn--submit">검색</button>
+    <button type="button" class="video__search-btn video__search-btn--reset" onclick="location.href='list.php'">초기화</button>
   </div>
 
   <!-- 안내 텍스트 -->
-  <div class="search-guide-box">
+  <div class="video__search-guide">
     <p><strong>제목</strong>: 검색어 입력</p>
     <p><strong>키워드</strong>: 검색어 입력 (,로 구분)</p>
   </div>
 </form>
 
-
 <!-- 추천 키워드 영역 -->
-<div id="popular-keywords">
-  <h3>🔥 인기 키워드</h3>
-  <div id="keyword-buttons">불러오는 중...</div>
+<div class="video__keyword-section" id="popular-keywords">
+  <h3 class="video__keyword-title">🔥 인기 키워드</h3>
+  <div class="video__keyword-list" id="keyword-buttons">불러오는 중...</div>
 </div>
 
-<div id="personal-keywords">
-  <h3>🎯 개인화 추천 키워드</h3>
-  <div id="personal-list">불러오는 중...</div>
+<div class="video__keyword-section" id="personal-keywords">
+  <h3 class="video__keyword-title">🎯 개인화 추천 키워드</h3>
+  <div class="video__keyword-list" id="personal-list">불러오는 중...</div>
 </div>
 
 <script>

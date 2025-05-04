@@ -23,30 +23,28 @@ $csrf_token = generate_csrf_token();
 
 <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<div class="content-wrapper">
-
-  <div class="page-title-write">
-    <h2>위키 문서 작성</h2>
+<div class="wiki">
+  <div class="wiki__header">
+    <h2 class="wiki__title">위키 문서 작성</h2>
   </div>
 
-  <form action="../../php/wiki/create.php" method="POST" id="wikiForm" data-editor-target="wiki" class="write-form">
-  <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-  
-  <div class="form-group">
-    <input type="text" name="subject" placeholder="제목을 입력하세요" required class="input-title">
-  </div>
+  <form action="../../php/wiki/create.php" method="POST" id="wikiForm" data-editor-target="wiki" class="wiki__form">
+    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
 
-  <div class="form-group">
-    <div id="editor" style="height: 500px;"></div>
-    <textarea name="content" id="content" style="display:none;"></textarea>
-  </div>
+    <div class="wiki__form-group">
+      <input type="text" name="subject" placeholder="제목을 입력하세요" required class="wiki__input-title">
+    </div>
 
-  <div class="button-group">
-    <input type="submit" value="작성 완료" class="btn-primary">
-    <a href="list.php" class="btn-secondary">목록으로</a>
-  </div>
-</form>
+    <div class="wiki__form-group">
+      <div id="editor" style="height: 500px;"></div>
+      <textarea name="content" id="content" style="display:none;"></textarea>
+    </div>
 
+    <div class="wiki__button-group">
+      <input type="submit" value="작성 완료" class="wiki__btn wiki__btn--submit">
+      <a href="list.php" class="wiki__btn wiki__btn--back">목록으로</a>
+    </div>
+  </form>
 </div>
 
 <?php include_once(__DIR__ . '/../../footer.php'); ?>

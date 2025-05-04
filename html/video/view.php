@@ -61,24 +61,23 @@ if (current_user_no()) {
 <body>
 <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-  <div class="video-view-container">
-    <h1 class="video-title"><?= htmlspecialchars($post['subject']) ?></h1>
-    <p class="video-writer">작성자: <?= htmlspecialchars($post['mb_id']) ?></p>
-    <p class="video-date">등록일: <?= date('Y-m-d H:i', strtotime($post['created_at'])) ?></p>
+  <div class="video">
+    <h1 class="video__title"><?= htmlspecialchars($post['subject']) ?></h1>
+    <p class="video__writer">작성자: <?= htmlspecialchars($post['mb_id']) ?></p>
+    <p class="video__date">등록일: <?= date('Y-m-d H:i', strtotime($post['created_at'])) ?></p>
 
     <?php if (!empty($post['keywords'])): ?>
-      <div class="video-keywords">
+      <div class="video__keywords">
         <?php
           $keywords = array_filter(array_map('trim', explode(',', $post['keywords'])));
           foreach ($keywords as $kw):
         ?>
-          <button type="button" class="keyword-button" disabled><?= htmlspecialchars($kw) ?></button>
+          <button type="button" class="video__keyword-btn" disabled><?= htmlspecialchars($kw) ?></button>
         <?php endforeach; ?>
       </div>
     <?php endif; ?>
 
-
-    <div class="video-frame-wrapper">
+    <div class="video__frame-wrapper">
       <?php if ($is_youtube): ?>
         <div id="youtube-player"></div>
       <?php else: ?>
@@ -93,28 +92,27 @@ if (current_user_no()) {
       <?php endif; ?>
     </div>
 
-    <div class="video-like-wrapper">
-      <form class="video-like-form">
-        <button type="button" class="video-like-btn" data-video-id="<?= $post['id'] ?>">
-          <i class="fa<?= $like_checked ? 's' : 'r' ?> fa-heart like-icon"></i>
+    <div class="video__like-wrapper">
+      <form class="video__like-form">
+        <button type="button" class="video__like-btn" data-video-id="<?= $post['id'] ?>">
+          <i class="fa<?= $like_checked ? 's' : 'r' ?> fa-heart video__like-icon"></i>
           <span id="like-count"><?= $like_count ?></span>
         </button>
       </form>
     </div>
 
-    <div class="video-buttons">
+    <div class="video__button-group">
       <?php if (current_user_no() === intval($post['user_id'])): ?>
         <form method="post" action="edit.php" style="display:inline;">
           <input type="hidden" name="id" value="<?= htmlspecialchars($post['id']) ?>">
           <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-          <button type="submit" class="save-button">수정하기</button>
+          <button type="submit" class="video__btn video__btn--edit">수정하기</button>
         </form>
       <?php endif; ?>
 
-      <a href="list.php" class="cancel-button">목록으로</a>
+      <a href="list.php" class="video__btn video__btn--back">목록으로</a>
     </div>
-
-</div>
+  </div>
 
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
 

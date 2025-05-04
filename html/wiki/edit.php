@@ -39,30 +39,31 @@ $csrf_token = generate_csrf_token();
 
 <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<div class="content-wrapper">
-  <div class="page-title-write">
-    <h2>문서 수정</h2>
+<div class="wiki">
+  <div class="wiki__header">
+    <h2 class="wiki__title">문서 수정</h2>
   </div>
 
-  <form action="/php/wiki/update.php" method="POST" id="wikiForm" onsubmit="return handleSubmitEditor();" class="write-form">
+  <form action="/php/wiki/update.php" method="POST" id="wikiForm" onsubmit="return handleSubmitEditor();" class="wiki__form">
     <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
     <input type="hidden" name="id" value="<?= $post['id'] ?>">
 
-    <div class="form-group">
-      <input type="text" name="subject" value="<?= htmlspecialchars($post['subject']) ?>" required class="input-title">
+    <div class="wiki__form-group">
+      <input type="text" name="subject" value="<?= htmlspecialchars($post['subject']) ?>" required class="wiki__input-title">
     </div>
 
-    <div class="form-group">
+    <div class="wiki__form-group">
       <div id="editor" style="height: 500px;"></div>
       <textarea name="content" id="content" style="display:none;"></textarea>
     </div>
 
-    <div class="button-group">
-      <button type="submit" class="btn-primary">수정 완료</button>
-      <a href="view.php?id=<?= $post['id'] ?>" class="btn-secondary">취소</a>
+    <div class="wiki__button-group">
+      <button type="submit" class="wiki__btn wiki__btn--submit">수정 완료</button>
+      <a href="view.php?id=<?= $post['id'] ?>" class="wiki__btn wiki__btn--back">취소</a>
     </div>
   </form>
 </div>
+
 
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
 

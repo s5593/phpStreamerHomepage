@@ -40,22 +40,23 @@ $_SESSION['reset_mb_id'] = $mb_id;
 <head>
   <meta charset="UTF-8">
   <title>비밀번호 재설정</title>
-  <link rel="stylesheet" href="/css/auth/form_common.css">
+  <link rel="stylesheet" href="/css/auth/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div class="form-card">
-    <h2>🔒 비밀번호 재설정</h2>
-    <form action="/php/auth/reset_password_action.php" method="post">
+  <div class="auth-reset">
+    <h2 class="auth-reset__title">🔒 비밀번호 재설정</h2>
+
+    <form action="/php/auth/reset_password_action.php" method="post" class="auth-reset__form">
       <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
 
-      <label for="new_pw">새 비밀번호</label>
-      <input type="password" id="new_pw" name="new_pw" required>
+      <label for="new_pw" class="auth-reset__label">새 비밀번호</label>
+      <input type="password" id="new_pw" name="new_pw" required class="auth-reset__input">
 
-      <label for="new_pw_confirm">새 비밀번호 확인</label>
-      <input type="password" id="new_pw_confirm" name="new_pw_confirm" required>
+      <label for="new_pw_confirm" class="auth-reset__label">새 비밀번호 확인</label>
+      <input type="password" id="new_pw_confirm" name="new_pw_confirm" required class="auth-reset__input">
 
-      <button type="submit">비밀번호 변경</button>
+      <button type="submit" class="auth-reset__submit-btn">비밀번호 변경</button>
     </form>
   </div>
 </body>

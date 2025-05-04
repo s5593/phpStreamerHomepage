@@ -1,0 +1,143 @@
+/* 푸터 스타일 */
+.site-footer {
+    width: 100%;
+    background-color: #111;
+    padding: 30px 20px;
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin-top: 100px;
+    border-top: 1px solid #222;
+  }
+  
+  .site-footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .site-footer p {
+    margin: 0;
+    color: #777;
+  }
+  
+  /* 기본 설정 */
+  body {
+    background: linear-gradient(to bottom, #171B1C 95%, #145A32 100%);
+    color: #ffffff;
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* 헤더 스타일 */
+  .site-header {
+    width: 100%;
+    height: 80px;
+    background-color: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #222;
+  }
+  
+  .site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 40px;
+  }
+  
+  .logo a {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .main-nav ul {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .main-nav li {
+    list-style: none;
+  }
+  
+  .main-nav a,
+  .main-nav span {
+    color: #fff;
+    font-size: 16px;
+  }
+  
+  /* 햄버거 버튼 */
+  .hamburger {
+    display: none;
+    font-size: 30px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  /* 모바일 메뉴 */
+  .mobile-nav {
+    display: none;
+    flex-direction: column;
+    background-color: #111;
+    position: absolute;
+    top: 80px;
+    right: 0;
+    width: 200px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    z-index: 999;
+  }
+  
+  .mobile-nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .mobile-nav a,
+  .mobile-nav span {
+    color: #eee;
+    font-size: 16px;
+  }
+  
+  .mobile-nav.active {
+    display: flex;
+  }
+  
+  /* 반응형 대응 */
+  @media (max-width: 768px) {
+    .site-header .container {
+      padding: 0 20px;
+    }
+  
+    .hamburger {
+      display: block;
+    }
+  
+    .main-nav {
+      display: none;
+    }
+  
+    .mobile-nav {
+      display: none;
+    }
+  
+    .mobile-nav.active {
+      display: flex;
+    }
+  
+    .site-footer {
+      font-size: 13px;
+      padding: 20px 10px;
+    }
+  }
+  

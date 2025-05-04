@@ -53,45 +53,46 @@ $result = $stmt->get_result();
 </head>
 <body>
     <?php include_once(__DIR__ . '/../../header.php'); ?>
-    <div class="notice-container">
-        <h2>공지사항</h2>
+    <div class="notice">
+        <h2 class="notice__title">공지사항</h2>
 
         <?php if (is_admin()): ?>
             <form method="POST" action="write.php" style="margin-top:10px;">
-                <button type="submit" class="notice-write-btn">[글쓰기]</button>
+                <button type="submit" class="notice__write-button">[글쓰기]</button>
             </form>
         <?php endif; ?>
 
-        <form method="GET" action="list.php" class="notice-search-form">
-            <input type="text" name="q" placeholder="제목 검색" value="<?= htmlspecialchars($search) ?>">
-            <input type="submit" value="검색">
+        <form method="GET" action="list.php" class="notice__search-form">
+            <input type="text" name="q" class="notice__search-input" placeholder="제목 검색" value="<?= htmlspecialchars($search) ?>">
+            <input type="submit" class="notice__search-button" value="검색">
         </form>
 
-        <div class="notice-card-grid">
+        <div class="notice__card-grid">
             <?php if ($result->num_rows === 0): ?>
-                <div class="notice-card no-notice">
+                <div class="notice__card notice__card--empty">
                     공지사항이 없습니다.
                 </div>
             <?php else: ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                    <a href="view.php?id=<?= $row['id'] ?>" class="notice-card">
-                        <div class="card-image">
-                            <img src="<?= htmlspecialchars($row['image'] ?? '/uploads/main/image.png') ?>" alt="공지 이미지">
-                        </div>
-                        <div class="card-content">
-                            <h4><?= htmlspecialchars($row['subject']) ?></h4>
-                            <span class="notice-date"><?= substr($row['created_at'], 0, 10) ?></span>
+                    <a href="view.php?id=<?= $row['id'] ?>" class="notice__card-link">
+                        <div class="notice__card">
+                            <div class="notice__card-image">
+                                <img src="<?= htmlspecialchars($row['image'] ?? '/uploads/main/image.png') ?>" alt="공지 이미지">
+                            </div>
+                            <div class="notice__card-content">
+                                <h4 class="notice__card-title"><?= htmlspecialchars($row['subject']) ?></h4>
+                                <span class="notice__card-date"><?= substr($row['created_at'], 0, 10) ?></span>
+                            </div>
                         </div>
                     </a>
                 <?php endwhile; ?>
             <?php endif; ?>
         </div>
 
-
         <?php if ($total_pages > 1): ?>
-            <div class="notice-pagination">
+            <div class="notice__pagination">
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="list.php?page=<?= $i ?>&q=<?= urlencode($search) ?>" <?= $i === $page ? 'class="active"' : '' ?>>
+                    <a href="list.php?page=<?= $i ?>&q=<?= urlencode($search) ?>" class="<?= $i === $page ? 'notice__pagination--active' : '' ?>">
                         <?= $i ?>
                     </a>
                 <?php endfor; ?>

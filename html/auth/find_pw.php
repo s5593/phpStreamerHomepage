@@ -7,28 +7,29 @@ $csrf_token = generate_csrf_token();
 <head>
   <meta charset="UTF-8">
   <title>비밀번호 찾기</title>
-  <link rel="stylesheet" href="/css/auth/find_id.css">
+  <link rel="stylesheet" href="/css/auth/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="form-card">
-  <h2>🔑 비밀번호 찾기</h2>
-  <form action="/php/auth/process_find_pw.php" method="post">
-    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+  <div class="auth-find">
+    <h2 class="auth-find__title">🔑 비밀번호 찾기</h2>
 
-    <label for="mb_id">아이디</label>
-    <input type="text" id="mb_id" name="mb_id" required>
+    <form action="/php/auth/process_find_pw.php" method="post" class="auth-find__form">
+      <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
 
-    <label for="mb_email">이메일</label>
-    <input type="email" id="mb_email" name="mb_email" required>
+      <label for="mb_id" class="auth-find__label">아이디</label>
+      <input type="text" id="mb_id" name="mb_id" required class="auth-find__input">
 
-    <button type="submit">임시 비밀번호 링크 받기</button>
-  </form>
+      <label for="mb_email" class="auth-find__label">이메일</label>
+      <input type="email" id="mb_email" name="mb_email" required class="auth-find__input">
 
-  <div class="action-buttons">
-    <a href="/html/auth/login_form.php" class="auth-btn">🔐 로그인</a>
-    <a href="/html/auth/find_id.php" class="auth-btn">🔍 아이디 찾기</a>
+      <button type="submit" class="auth-find__submit-btn">임시 비밀번호 링크 받기</button>
+    </form>
+
+    <div class="auth-find__action-buttons">
+      <a href="/html/auth/login_form.php" class="auth-find__btn">🔐 로그인</a>
+      <a href="/html/auth/find_id.php" class="auth-find__btn">🔍 아이디 찾기</a>
+    </div>
   </div>
-</div>
 </body>
 </html>

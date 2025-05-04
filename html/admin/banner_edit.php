@@ -33,47 +33,47 @@ $stmt->close();
 </head>
 <body>
 <?php include_once(__DIR__ . '/../../header.php'); ?>
-<h2>배너 수정</h2>
+    <h2 class="admin-banner__title">배너 수정</h2>
 
-<form action="../../php/admin/banner_edit_action.php" method="post" enctype="multipart/form-data" class="banner-form">
+    <form action="../../php/admin/banner_edit_action.php" method="post" enctype="multipart/form-data" class="admin-banner__form">
     <input type="hidden" name="bn_id" value="<?= htmlspecialchars($banner['bn_id']) ?>">
-    
-    <div>
-        <label for="bn_title">제목</label><br>
-        <input type="text" name="bn_title" id="bn_title" value="<?= htmlspecialchars($banner['bn_title']) ?>" required>
+
+    <div class="admin-banner__group">
+        <label for="bn_title" class="admin-banner__label">제목</label>
+        <input type="text" name="bn_title" id="bn_title" value="<?= htmlspecialchars($banner['bn_title']) ?>" required class="admin-banner__input">
     </div>
-    
-    <div>
-        <label>현재 이미지</label><br>
-        <img src="<?= htmlspecialchars($banner['bn_image']) ?>" alt="현재 이미지" class="thumbnail"><br>
-        <small>※ 새 이미지를 등록하면 기존 이미지는 덮어쓰기 됩니다.</small><br>
-        <small>이미지는 16:9 비율로 올려주세요.</small><br>
-        <input type="file" name="bn_image" id="bn_image" accept="image/*">
+
+    <div class="admin-banner__group">
+        <label class="admin-banner__label">현재 이미지</label>
+        <img src="<?= htmlspecialchars($banner['bn_image']) ?>" alt="현재 이미지" class="admin-banner__thumbnail">
+        <small class="admin-banner__note">※ 새 이미지를 등록하면 기존 이미지는 덮어쓰기 됩니다.</small>
+        <small class="admin-banner__note">이미지는 16:9 비율로 올려주세요.</small>
+        <input type="file" name="bn_image" id="bn_image" accept="image/*" class="admin-banner__input">
     </div>
-    
-    <div>
-        <label for="bn_link">링크 URL</label><br>
-        <input type="url" name="bn_link" id="bn_link" value="<?= htmlspecialchars($banner['bn_link']) ?>">
+
+    <div class="admin-banner__group">
+        <label for="bn_link" class="admin-banner__label">링크 URL</label>
+        <input type="url" name="bn_link" id="bn_link" value="<?= htmlspecialchars($banner['bn_link']) ?>" class="admin-banner__input">
     </div>
-    
-    <div>
-        <label for="bn_sort">정렬 순서</label><br>
-        <input type="number" name="bn_sort" id="bn_sort" value="<?= htmlspecialchars($banner['bn_sort']) ?>">
+
+    <div class="admin-banner__group">
+        <label for="bn_sort" class="admin-banner__label">정렬 순서</label>
+        <input type="number" name="bn_sort" id="bn_sort" value="<?= htmlspecialchars($banner['bn_sort']) ?>" class="admin-banner__input">
     </div>
-    
-    <div>
-        <label for="bn_is_active">활성화 여부</label><br>
-        <select name="bn_is_active" id="bn_is_active">
-            <option value="1" <?= $banner['bn_is_active'] ? 'selected' : '' ?>>활성화</option>
-            <option value="0" <?= !$banner['bn_is_active'] ? 'selected' : '' ?>>비활성화</option>
+
+    <div class="admin-banner__group">
+        <label for="bn_is_active" class="admin-banner__label">활성화 여부</label>
+        <select name="bn_is_active" id="bn_is_active" class="admin-banner__select">
+        <option value="1" <?= $banner['bn_is_active'] ? 'selected' : '' ?>>활성화</option>
+        <option value="0" <?= !$banner['bn_is_active'] ? 'selected' : '' ?>>비활성화</option>
         </select>
     </div>
-    
-    <div style="margin-top:15px;">
-        <button type="submit" class="btn btn-edit">수정하기</button>
-        <a href="banner_list.php" class="btn">목록으로</a>
+
+    <div class="admin-banner__button-group">
+        <button type="submit" class="admin-banner__btn admin-banner__btn--submit">수정하기</button>
+        <a href="banner_list.php" class="admin-banner__btn">목록으로</a>
     </div>
-</form>
+    </form>
 
 <script src="/js/admin/admin_banner.js"></script>
 <?php include_once(__DIR__ . '/../../footer.php'); ?>

@@ -38,29 +38,28 @@ if (!$post) {
 
 <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<div class="content-wrapper">
-  <h2 class="wiki-title"><?= htmlspecialchars($post['subject']) ?></h2>
+<div class="wiki">
+  <h2 class="wiki__title"><?= htmlspecialchars($post['subject']) ?></h2>
 
-  <div class="wiki-card">
-    <div class="wiki-content">
+  <div class="wiki__card">
+    <div class="wiki__content">
       <?= $post['content'] ?>
     </div>
-    <div class="wiki-meta">작성일: <?= date('Y-m-d H:i:s', strtotime($post['created_at'])) ?></div>
+    <div class="wiki__meta">작성일: <?= date('Y-m-d H:i:s', strtotime($post['created_at'])) ?></div>
   </div>
 
-  <div class="wiki-buttons">
+  <div class="wiki__button-group">
     <?php if (is_admin()): ?>
-      <a href="edit.php?id=<?= $post['id'] ?>" class="btn-gray">수정</a>
-      <form action="/php/wiki/delete.php" method="POST" class="inline-form" onsubmit="return confirm('삭제하시겠습니까?');">
+      <a href="edit.php?id=<?= $post['id'] ?>" class="wiki__btn wiki__btn--edit">수정</a>
+      <form action="/php/wiki/delete.php" method="POST" class="wiki__form--inline" onsubmit="return confirm('삭제하시겠습니까?');">
         <input type="hidden" name="id" value="<?= $post['id'] ?>">
         <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-        <button type="submit" class="btn-gray">삭제</button>
+        <button type="submit" class="wiki__btn wiki__btn--delete">삭제</button>
       </form>
     <?php endif; ?>
-    <a href="list.php" class="btn-gray">목록으로</a>
+    <a href="list.php" class="wiki__btn wiki__btn--back">목록으로</a>
   </div>
 </div>
-
 
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>

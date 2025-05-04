@@ -21,14 +21,14 @@ $csrf_token = generate_csrf_token();
 </head>
 <body>
     <?php include_once(__DIR__ . '/../../header.php'); ?>
-    <div class="notice-container">
-        <h2>공지사항 작성</h2>
+    <div class="notice">
+        <h2 class="notice__title">공지사항 작성</h2>
 
         <form method="POST" action="/php/notice/create.php" data-editor-target="notice">
             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
 
             <!-- 제목 입력 -->
-            <div class="notice-input-wrap">
+            <div class="notice__input-wrap">
                 <input type="text" name="subject" placeholder="제목을 입력하세요" required>
             </div>
 
@@ -37,9 +37,9 @@ $csrf_token = generate_csrf_token();
             <input type="hidden" id="content" name="content">
 
             <!-- 버튼 그룹 -->
-            <div class="notice-btn-group">
-                <button type="submit" class="notice-btn notice-submit-btn">작성 완료</button>
-                <a href="list.php" class="notice-btn notice-back-btn">목록으로</a>
+            <div class="notice__btn-group">
+                <button type="submit" class="notice__btn notice__btn--submit">작성 완료</button>
+                <a href="list.php" class="notice__btn notice__btn--back">목록으로</a>
             </div>
         </form>
     </div>

@@ -68,17 +68,17 @@ $result = $stmt->get_result();
 </head>
 <body>
 <?php include_once(__DIR__ . '/../../header.php'); ?>
-  <div class="video-container">
-    <div class="video-header">
-      <h1>🎮 영상 게시판</h1>
+  <div class="video">
+    <div class="video__header">
+      <h1 class="video__title">🎮 영상 게시판</h1>
       <?php if ($is_logged_in): ?>
-        <a href="write.php" class="write-button">+ 글쓰기</a>
+        <a href="write.php" class="video__write-button">+ 글쓰기</a>
       <?php endif; ?>
     </div>
 
     <?php include_once(__DIR__ . '/search.php'); ?>
 
-    <div class="card-grid">
+    <div class="video__card-grid">
       <?php while ($row = $result->fetch_assoc()): ?>
         <?php
           $video_id = $row['video_url'];
@@ -86,26 +86,26 @@ $result = $stmt->get_result();
             ? "https://img.youtube.com/vi/{$video_id}/hqdefault.jpg"
             : "/uploads/main/image.png";
         ?>
-        <a href="/html/video/view.php?id=<?= htmlspecialchars($row['id']) ?>" class="card-link">
-          <div class="card">
-            <div class="thumbnail" style="background-image: url('<?= $thumbnail_url ?>');"></div>
-            <div class="card-body">
-              <div class="card-title"><?= htmlspecialchars($row['subject']) ?></div>
-              <div class="card-writer">작성자: <?= htmlspecialchars($row['mb_id']) ?></div>
+        <a href="/html/video/view.php?id=<?= htmlspecialchars($row['id']) ?>" class="video__card-link">
+          <div class="video__card">
+            <div class="video__thumbnail" style="background-image: url('<?= $thumbnail_url ?>');"></div>
+            <div class="video__card-body">
+              <div class="video__card-title"><?= htmlspecialchars($row['subject']) ?></div>
+              <div class="video__card-writer">작성자: <?= htmlspecialchars($row['mb_id']) ?></div>
             </div>
           </div>
         </a>
       <?php endwhile; ?>
     </div>
 
-    <div class="pagination">
+    <div class="video__pagination">
       <?php
       $total_pages = ceil($total / $page_size);
       for ($i = 1; $i <= $total_pages; $i++):
         $link = "list.php?page=$i";
         if ($search) $link .= '&q=' . urlencode($search);
       ?>
-        <a href="<?= $link ?>" class="page-button <?= $i === $page ? 'active' : '' ?>">
+        <a href="<?= $link ?>" class="video__page-button <?= $i === $page ? 'video__page-button--active' : '' ?>">
           <?= $i ?>
         </a>
       <?php endfor; ?>

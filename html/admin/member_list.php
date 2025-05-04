@@ -25,44 +25,48 @@ if ($result && $result->num_rows > 0) {
 <head>
     <meta charset="UTF-8">
     <title>회원 관리</title>
-    <link rel="stylesheet" href="/css/admin/admin_member.css">
+    <link rel="stylesheet" href="/css/admin/style.css">
 </head>
 <body>
-<?php include_once(__DIR__ . '/../../header.php'); ?>
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<h2>회원 관리</h2>
-<div class="admin-tabs">
-    <a href="banner_list.php" class="<?= basename($_SERVER['PHP_SELF']) === 'banner_list.php' ? 'active' : '' ?>">배너 관리</a>
-    <a href="login_log_list.php" class="<?= basename($_SERVER['PHP_SELF']) === 'login_log_list.php' ? 'active' : '' ?>">로그인 기록</a>
-    <a href="member_list.php" class="<?= basename($_SERVER['PHP_SELF']) === 'member_list.php' ? 'active' : '' ?>">회원 관리</a>
-</div>
+    <h2 class="admin-member__title">회원 관리</h2>
 
-<table class="member-table">
+    <div class="admin-member__tabs">
+    <a href="banner_list.php" class="admin-member__tab <?= basename($_SERVER['PHP_SELF']) === 'banner_list.php' ? 'active' : '' ?>">배너 관리</a>
+    <a href="login_log_list.php" class="admin-member__tab <?= basename($_SERVER['PHP_SELF']) === 'login_log_list.php' ? 'active' : '' ?>">로그인 기록</a>
+    <a href="member_list.php" class="admin-member__tab <?= basename($_SERVER['PHP_SELF']) === 'member_list.php' ? 'active' : '' ?>">회원 관리</a>
+    </div>
+
+    <table class="admin-member__table">
     <thead>
         <tr>
-            <th>회원번호호</th>
-            <th>아이디</th>
-            <th>레벨</th>
-            <th>관리</th>
+        <th>회원번호</th>
+        <th>아이디</th>
+        <th>레벨</th>
+        <th>관리</th>
         </tr>
     </thead>
     <tbody>
         <?php if (count($members) > 0): ?>
-            <?php foreach ($members as $member): ?>
-                <tr>
-                    <td><?= htmlspecialchars($member['mb_no']) ?></td>
-                    <td><?= htmlspecialchars($member['mb_id']) ?></td>
-                    <td><?= htmlspecialchars($member['mb_level']) ?></td>
-                    <td>
-                        <a href="member_edit.php?mb_id=<?= urlencode($member['mb_id']) ?>" class="btn btn-edit">레벨 수정</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
+        <?php foreach ($members as $member): ?>
+            <tr>
+            <td><?= htmlspecialchars($member['mb_no']) ?></td>
+            <td><?= htmlspecialchars($member['mb_id']) ?></td>
+            <td><?= htmlspecialchars($member['mb_level']) ?></td>
+            <td>
+                <a href="member_edit.php?mb_id=<?= urlencode($member['mb_id']) ?>" class="admin-member__btn admin-member__btn--edit">레벨 수정</a>
+            </td>
+            </tr>
+        <?php endforeach; ?>
         <?php else: ?>
-            <tr><td colspan="4">회원이 없습니다.</td></tr>
+        <tr>
+            <td colspan="4" class="admin-member__empty">회원이 없습니다.</td>
+        </tr>
         <?php endif; ?>
     </tbody>
-</table>
-<?php include_once(__DIR__ . '/../../footer.php'); ?>
+    </table>
+
+    <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>
 </html>

@@ -33,15 +33,15 @@ $csrf_token = generate_csrf_token();
 </head>
 <body>
     <?php include_once(__DIR__ . '/../../header.php'); ?>
-    <div class="notice-container">
-        <h2>공지사항 수정</h2>
+    <div class="notice">
+        <h2 class="notice__title">공지사항 수정</h2>
 
         <form action="/php/notice/update.php" method="POST" id="noticeForm">
             <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
             <input type="hidden" name="id" value="<?= $post['id'] ?>">
 
             <!-- 제목 입력 -->
-            <div class="notice-input-wrap">
+            <div class="notice__input-wrap">
                 <input type="text" name="subject" id="subject" 
                     placeholder="제목을 입력하세요"
                     value="<?= htmlspecialchars($post['subject']) ?>"
@@ -53,14 +53,12 @@ $csrf_token = generate_csrf_token();
             <textarea name="content" id="content" style="display: none;"></textarea>
 
             <!-- 버튼 그룹 -->
-            <div class="notice-btn-group">
-                <button type="submit" class="notice-btn notice-submit-btn">수정 완료</button>
-                <a href="view.php?id=<?= $post['id'] ?>" class="notice-btn notice-back-btn">글 보기</a>
+            <div class="notice__btn-group">
+                <button type="submit" class="notice__btn notice__btn--submit">수정 완료</button>
+                <a href="view.php?id=<?= $post['id'] ?>" class="notice__btn notice__btn--back">글 보기</a>
             </div>
         </form>
     </div>
-
-
     <?php include_once(__DIR__ . '/../../footer.php'); ?>
     <!-- Toast UI Editor JS -->
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>

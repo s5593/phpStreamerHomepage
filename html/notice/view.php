@@ -34,34 +34,34 @@ $csrf_token = generate_csrf_token();
 </head>
 <body>
     <?php include_once(__DIR__ . '/../../header.php'); ?>
-    <div class="notice-container">
-        <h2><?= htmlspecialchars($post['subject']) ?></h2>
-        <div class="notice-content">
+    <div class="notice">
+        <h2 class="notice__title"><?= htmlspecialchars($post['subject']) ?></h2>
+
+        <div class="notice__content">
             <?= $post['content'] ?> <!-- HTML 포함 내용 -->
         </div>
-        <p class="notice-date">작성일: <?= $post['created_at'] ?></p>
 
-        <div class="notice-btn-group">
+        <p class="notice__date">작성일: <?= $post['created_at'] ?></p>
+
+        <div class="notice__btn-group">
             <?php if (is_admin()): ?>
                 <form method="POST" action="edit.php" style="display:inline;">
                     <input type="hidden" name="id" value="<?= $post['id'] ?>">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-                    <button type="submit" class="notice-btn">수정</button>
+                    <button type="submit" class="notice__btn notice__btn--edit">수정</button>
                 </form>
 
                 <form method="POST" action="/php/notice/delete.php" style="display:inline;">
                     <input type="hidden" name="id" value="<?= $post['id'] ?>">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-                    <button type="submit" class="notice-btn">삭제</button>
+                    <button type="submit" class="notice__btn notice__btn--delete">삭제</button>
                 </form>
             <?php endif; ?>
 
-            <!-- 목록으로는 관리자/일반 사용자 모두 보여야 함 -->
-            <a href="list.php" class="notice-btn notice-back-btn">목록으로</a>
+            <a href="list.php" class="notice__btn notice__btn--back">목록으로</a>
         </div>
-
     </div>
-    
+
     <?php include_once(__DIR__ . '/../../footer.php'); ?>
     <script src="../../js/notice/script.js"></script>
 </body>

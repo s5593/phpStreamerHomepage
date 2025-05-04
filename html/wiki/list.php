@@ -47,38 +47,40 @@ $total_pages = ceil($total_count / $limit);
 
 <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<div class="content-wrapper">
-  <div class="page-title">
-    <h2>위키 문서 목록</h2>
+<div class="wiki">
+  <div class="wiki__header">
+    <h2 class="wiki__title">위키 문서 목록</h2>
   </div>
 
   <!-- 글쓰기 버튼 -->
   <?php if (is_admin()): ?>
-    <div class="write-button-wrapper">
-      <a href="/html/wiki/write.php" class="btn-primary">[문서 작성]</a>
+    <div class="wiki__write-button-wrapper">
+      <a href="/html/wiki/write.php" class="wiki__write-button">[문서 작성]</a>
     </div>
   <?php endif; ?>
 
   <!-- 검색 폼 -->
-  <form method="GET" action="list.php" class="search-form">
-    <input type="text" name="q" placeholder="검색어를 입력하세요" value="<?= htmlspecialchars($keyword) ?>" class="search-input">
-    <input type="submit" value="검색" class="btn-primary">
+  <form method="GET" action="list.php" class="wiki__search-form">
+    <input type="text" name="q" placeholder="검색어를 입력하세요" value="<?= htmlspecialchars($keyword) ?>" class="wiki__search-input">
+    <input type="submit" value="검색" class="wiki__search-button">
     <?php if ($keyword): ?>
-      <a href="list.php" class="reset-link">검색 초기화</a>
+      <a href="list.php" class="wiki__reset-link">검색 초기화</a>
     <?php endif; ?>
   </form>
 
   <!-- 문서 목록 -->
   <?php if ($result->num_rows === 0): ?>
-    <div class="empty-message">문서가 없습니다.</div>
+    <div class="wiki__empty-message">문서가 없습니다.</div>
   <?php else: ?>
-    <div class="card-grid">
+    <div class="wiki__card-grid">
       <?php while ($row = $result->fetch_assoc()): ?>
-        <a href="view.php?id=<?= htmlspecialchars($row['id']) ?>" class="card">
-          <div class="card-image"></div>
-          <div class="card-content">
-            <h3><?= htmlspecialchars($row['subject']) ?></h3>
-            <small><?= date('Y-m-d', strtotime($row['created_at'])) ?></small>
+        <a href="view.php?id=<?= htmlspecialchars($row['id']) ?>" class="wiki__card-link">
+          <div class="wiki__card">
+            <div class="wiki__card-image"></div>
+            <div class="wiki__card-content">
+              <h3 class="wiki__card-title"><?= htmlspecialchars($row['subject']) ?></h3>
+              <small class="wiki__card-date"><?= date('Y-m-d', strtotime($row['created_at'])) ?></small>
+            </div>
           </div>
         </a>
       <?php endwhile; ?>
@@ -87,16 +89,15 @@ $total_pages = ceil($total_count / $limit);
 
   <!-- 페이지네이션 -->
   <?php if ($total_pages > 1): ?>
-    <div class="pagination">
+    <div class="wiki__pagination">
       <?php for ($i = 1; $i <= $total_pages; $i++):
         $params = "page=$i";
         if ($keyword) $params .= "&q=" . urlencode($keyword);
       ?>
-        <a href="list.php?<?= $params ?>" class="<?= $i == $page ? 'active' : '' ?>"><?= $i ?></a>
+        <a href="list.php?<?= $params ?>" class="<?= $i == $page ? 'wiki__pagination--active' : '' ?>"><?= $i ?></a>
       <?php endfor; ?>
     </div>
   <?php endif; ?>
-
 </div>
 
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
