@@ -44,62 +44,60 @@ $total_pages = ceil($total_count / $limit);
   <link rel="stylesheet" href="/css/wiki/style.css">
 </head>
 <body>
+<div class="page-container">
+  <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<?php include_once(__DIR__ . '/../../header.php'); ?>
-
-<div class="wiki">
-  <div class="wiki__header">
-    <h2 class="wiki__title">위키 문서 목록</h2>
-  </div>
-
-  <!-- 글쓰기 버튼 -->
-  <?php if (is_admin()): ?>
-    <div class="wiki__write-button-wrapper">
-      <a href="/html/wiki/write.php" class="wiki__write-button">[문서 작성]</a>
+  <div class="wiki">
+    <div class="wiki__header">
+      <h2 class="wiki__title">위키 문서</h2>
     </div>
-  <?php endif; ?>
 
-  <!-- 검색 폼 -->
-  <form method="GET" action="list.php" class="wiki__search-form">
-    <input type="text" name="q" placeholder="검색어를 입력하세요" value="<?= htmlspecialchars($keyword) ?>" class="wiki__search-input">
-    <input type="submit" value="검색" class="wiki__search-button">
-    <?php if ($keyword): ?>
-      <a href="list.php" class="wiki__reset-link">검색 초기화</a>
+    <?php if (is_admin()): ?>
+      <div class="wiki__write-button-wrapper">
+        <a href="/html/wiki/write.php" class="wiki__write-button">[문서 작성]</a>
+      </div>
     <?php endif; ?>
-  </form>
 
-  <!-- 문서 목록 -->
-  <?php if ($result->num_rows === 0): ?>
-    <div class="wiki__empty-message">문서가 없습니다.</div>
-  <?php else: ?>
-    <div class="wiki__card-grid">
-      <?php while ($row = $result->fetch_assoc()): ?>
-        <a href="view.php?id=<?= htmlspecialchars($row['id']) ?>" class="wiki__card-link">
-          <div class="wiki__card">
-            <div class="wiki__card-image"></div>
-            <div class="wiki__card-content">
-              <h3 class="wiki__card-title"><?= htmlspecialchars($row['subject']) ?></h3>
-              <small class="wiki__card-date"><?= date('Y-m-d', strtotime($row['created_at'])) ?></small>
+    <form method="GET" action="list.php" class="wiki__search-form" style="margin-top: 10px;">
+      <input type="text" name="q" class="input" placeholder="제목 검색" value="<?= htmlspecialchars($keyword) ?>">
+      <button type="submit" class="button button--primary">검색</button>
+      <?php if ($keyword): ?>
+        <a href="list.php" class="button button--secondary">검색 초기화</a>
+      <?php endif; ?>
+    </form>
+
+    <?php if ($result->num_rows === 0): ?>
+      <div class="wiki__empty-message">문서가 없습니다.</div>
+    <?php else: ?>
+      <div class="card-grid">
+        <?php while ($row = $result->fetch_assoc()): ?>
+          <a href="view.php?id=<?= htmlspecialchars($row['id']) ?>" class="card-link">
+            <div class="card">
+              <div class="card__image">
+                <img src="<?= htmlspecialchars($row['image'] ?? '/uploads/main/image.png') ?>" alt="공지 이미지">
+              </div>
+              <div class="card__content">
+                <h3 class="card__title"><?= htmlspecialchars($row['subject']) ?></h3>
+                <small class="card__meta"><?= date('Y-m-d', strtotime($row['created_at'])) ?></small>
+              </div>
             </div>
-          </div>
-        </a>
-      <?php endwhile; ?>
-    </div>
-  <?php endif; ?>
+          </a>
+        <?php endwhile; ?>
+      </div>
+    <?php endif; ?>
 
-  <!-- 페이지네이션 -->
-  <?php if ($total_pages > 1): ?>
-    <div class="wiki__pagination">
-      <?php for ($i = 1; $i <= $total_pages; $i++):
-        $params = "page=$i";
-        if ($keyword) $params .= "&q=" . urlencode($keyword);
-      ?>
-        <a href="list.php?<?= $params ?>" class="<?= $i == $page ? 'wiki__pagination--active' : '' ?>"><?= $i ?></a>
-      <?php endfor; ?>
-    </div>
-  <?php endif; ?>
+
+    <?php if ($total_pages > 1): ?>
+      <div class="wiki__pagination">
+        <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+          <?php $params = "page=$i" . ($keyword ? "&q=" . urlencode($keyword) : ''); ?>
+          <a href="list.php?<?= $params ?>" class="<?= $i == $page ? 'wiki__pagination--active' : '' ?>"><?= $i ?></a>
+        <?php endfor; ?>
+      </div>
+    <?php endif; ?>
+  </div>
 </div>
-
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
+
 </body>
 </html>

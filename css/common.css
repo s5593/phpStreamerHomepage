@@ -1,89 +1,206 @@
 :root {
-    --color-bg: #171B1C;
-    --color-surface: #1f2426;        /* 컴포넌트 배경 */
-    --color-primary: #2ecc71;        /* 포인트 (에메랄드 그린) */
-    --color-text: #ffffff;           /* 기본 텍스트 */
-    --color-muted: #bbbbbb;          /* 보조 텍스트 */
-    --font-family: 'Noto Sans KR', sans-serif;
-    --radius: 8px;
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  }
-  
-  body {
-    background: linear-gradient(to bottom, #171B1C 95%, #145A32 100%);
-    color: var(--color-text);
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* 버튼 */
-  .button {
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: var(--radius);
-    font-size: 14px;
-    font-weight: bold;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s, box-shadow 0.2s;
-  }
-  
-  .button--primary {
-    background-color: var(--color-primary);
-    color: var(--color-text);
-  }
-  .button--primary:hover {
-    background-color: #27ae60;
-  }
-  
-  .button--secondary {
-    background-color: #333;
-    color: var(--color-text);
-  }
-  .button--secondary:hover {
-    background-color: #555;
-  }
-  
-  /* 카드 */
-  .card {
-    background-color: var(--color-surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-  }
-  .card:hover {
-    transform: translateY(-5px);
-  }
-  .card__image {
+  --color-bg: #171B1C;
+  --color-surface: #1f2426;
+  --color-primary: #2ecc71;
+  --color-text: #ffffff;
+  --color-muted: #bbbbbb;
+  --font-family: 'Noto Sans KR', sans-serif;
+  --radius: 8px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* 배경 및 기본 설정 */
+body {
+  background: linear-gradient(to right, #1a1d1b 70%, #01140a 100%);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+}
+
+/* 공통 레이아웃 컨테이너 */
+.page-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .page-container {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    padding: 0 15px;
   }
-  .card__content {
-    padding: 20px;
+}
+
+/* 공통 버튼 */
+.button-group {
+  margin-top: 40px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+/* 생성 버튼 */
+.button--primary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+.button--primary:hover {
+  background-color: #27ae60;
+}
+
+.button--secondary {
+  background-color: #333;
+  color: var(--color-text);
+}
+.button--secondary:hover {
+  background-color: #555;
+}
+
+/* 수정 버튼 */
+.button--edit {
+  background-color: #3498db;
+  color: var(--color-text);
+}
+.button--edit:hover {
+  background-color: #2980b9;
+}
+
+/* 삭제 버튼 */
+.button--delete {
+  background-color: #e74c3c;
+  color: var(--color-text);
+}
+.button--delete:hover {
+  background-color: #c0392b;
+}
+
+.button-group--right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* 공통 카드뷰 스타일 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1023px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .card__title {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--color-text);
+}
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: 1fr;
   }
-  .card__meta {
-    font-size: 13px;
-    color: var(--color-muted);
-  }
-  
-  /* 입력 필드 */
-  .input {
-    width: 100%;
-    background-color: #222;
-    color: var(--color-text);
-    border: none;
-    padding: 12px;
-    border-radius: var(--radius);
-    font-size: 15px;
-    margin-bottom: 10px;
-  }
-  
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card__image img {
+  display: block;
+  width: 100%;
+  height: 180px;           /* 원하는 이미지 높이 */
+  object-fit: cover;
+  border-bottom: 1px solid #333; /* 구분선 추가 (선택) */
+}
+
+.card__content {
+  padding: 16px;
+  background-color: var(--color-surface);
+}
+
+.card__title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 6px;
+  color: var(--color-text);
+}
+
+.card__meta {
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+
+/* 공통 입력 필드 */
+.input {
+  width: 100%;
+  background-color: #222;
+  color: var(--color-text);
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+/* 제목 입력창 */
+.input--title {
+  width: 100%;
+  max-width: 800px;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: var(--radius);
+  background-color: #222;
+  color: var(--color-text);
+  border: none;
+  margin-bottom: 20px;
+}
+
+.form__group {
+  margin-bottom: 20px;
+}
+
+.form__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: var(--color-text);
+  font-weight: bold;
+}
+
+.form__hint {
+  font-size: 13px;
+  color: var(--color-muted);
+  margin-left: 4px;
+}
+
+/* 공통 선택박스 */
+.input--select {
+  width: 150px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: var(--radius);
+  background-color: #222;
+  color: var(--color-text);
+  border: none;
+}

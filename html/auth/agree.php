@@ -18,43 +18,59 @@ if (isset($_SESSION['agreed_to_terms']) && $_SESSION['agreed_to_terms'] === true
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+  <div class="page-container">
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-  <div class="auth-agree">
-    <h2 class="auth-agree__title">약관 및 개인정보 수집 동의</h2>
+    <div class="auth">
+      <h2 class="auth__title">약관 및 개인정보 수집 동의</h2>
 
-    <?php if (isset($_SESSION['error_message'])): ?>
-      <div class="auth-agree__error"><?= htmlspecialchars($_SESSION['error_message']) ?></div>
-      <?php unset($_SESSION['error_message']); ?>
-    <?php endif; ?>
+      <?php if (isset($_SESSION['error_message'])): ?>
+        <div class="auth__error"><?= htmlspecialchars($_SESSION['error_message']) ?></div>
+        <?php unset($_SESSION['error_message']); ?>
+      <?php endif; ?>
 
-    <form action="../../php/auth/check_agreement.php" method="POST" class="auth-agree__form">
-      <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+      <form action="../../php/auth/check_agreement.php" method="POST" class="auth__form">
+        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
 
-      <label class="auth-agree__checkbox-line">
-        <input type="checkbox" id="agree_all">
-        전체 약관에 동의합니다
-      </label>
+        <!-- 전체 동의 -->
+        <div class="form__group">
+          <label class="form__checkbox">
+            <input type="checkbox" id="agree_all">
+            전체 약관에 동의합니다
+          </label>
+        </div>
 
-      <hr class="auth-agree__divider">
+        <hr class="form__divider">
 
-      <h4 class="auth-agree__subtitle">이용약관</h4>
-      <textarea readonly class="auth-agree__textarea">여기에 이용약관 내용을 작성하세요.</textarea>
-      <label class="auth-agree__checkbox-line">
-        <input type="checkbox" name="agree_terms" class="auth-agree__checkbox" required>
-        이용약관에 동의합니다
-      </label>
+        <!-- 이용약관 -->
+        <div class="form__group">
+          <h4 class="form__section-title">이용약관</h4>
+          <textarea readonly class="auth__textarea">여기에 이용약관 내용을 작성하세요.</textarea>
+          <label class="form__checkbox">
+            <input type="checkbox" name="agree_terms" required>
+            이용약관에 동의합니다
+          </label>
+        </div>
 
-      <h4 class="auth-agree__subtitle">개인정보 수집 및 이용 동의</h4>
-      <textarea readonly class="auth-agree__textarea">여기에 개인정보 처리방침 내용을 작성하세요.</textarea>
-      <label class="auth-agree__checkbox-line">
-        <input type="checkbox" name="agree_privacy" class="auth-agree__checkbox" required>
-        개인정보 수집 및 이용에 동의합니다
-      </label>
+        <!-- 개인정보 수집 -->
+        <div class="form__group">
+          <h4 class="form__section-title">개인정보 수집 및 이용 동의</h4>
+          <textarea readonly class="auth__textarea">여기에 개인정보 처리방침 내용을 작성하세요.</textarea>
+          <label class="form__checkbox">
+            <input type="checkbox" name="agree_privacy" required>
+            개인정보 수집 및 이용에 동의합니다
+          </label>
+        </div>
 
-      <button type="submit" class="auth-agree__submit-btn">동의하고 회원가입 진행</button>
-    </form>
+        <!-- 제출 -->
+        <div class="button-group">
+          <button type="submit" class="button button--primary">동의하고 회원가입 진행</button>
+        </div>
+      </form>
+    </div>
   </div>
-
-<script defer src="../../js/auth/agree.js"></script>
+  <script defer src="../../js/auth/agree.js"></script>
+  <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>
+
 </html>

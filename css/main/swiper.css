@@ -20,8 +20,7 @@
 /* Swiper 버튼 */
 .swiper-button-prev,
 .swiper-button-next {
-  color: #fff;
-  font-size: 24px;
+  display: none !important;
 }
 
 /* Swiper 페이지네이션 */
@@ -31,7 +30,7 @@
 }
 
 .swiper-pagination-bullet-active {
-  background: #6a0dad;
+  background: #2ecc71;
   opacity: 1;
 }
 

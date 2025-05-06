@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.editor = new toastui.Editor({
     el: editorElement,
     height: '500px',
-    initialEditType: 'wysiwyg', // 공지사항은 wysiwyg 기본
+    initialEditType: 'markdown', // 공지사항은 wysiwyg 기본
     previewStyle: 'vertical',
     hideModeSwitch: false, // Markdown/Preview 탭 표시
     initialValue: '',

@@ -1,143 +1,112 @@
-/* 푸터 스타일 */
-.site-footer {
-    width: 100%;
-    background-color: #111;
-    padding: 30px 20px;
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-    margin-top: 100px;
-    border-top: 1px solid #222;
-  }
-  
-  .site-footer .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .site-footer p {
-    margin: 0;
-    color: #777;
-  }
-  
-  /* 기본 설정 */
-  body {
-    background: linear-gradient(to bottom, #171B1C 95%, #145A32 100%);
-    color: #ffffff;
-    font-family: 'Noto Sans KR', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  /* 헤더 스타일 */
-  .site-header {
-    width: 100%;
-    height: 80px;
-    background-color: #000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    border-bottom: 1px solid #222;
-  }
-  
-  .site-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 100%;
-    padding: 0 40px;
-  }
-  
-  .logo a {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-  }
-  
-  .main-nav ul {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .main-nav li {
-    list-style: none;
-  }
-  
-  .main-nav a,
-  .main-nav span {
-    color: #fff;
-    font-size: 16px;
-  }
-  
-  /* 햄버거 버튼 */
-  .hamburger {
+.main-header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 70px;
+  padding: 0 5px;
+}
+
+/* 오른쪽 영역 전체 묶기 (메뉴 + 햄버거) */
+.main-header__right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* PC 메뉴 기본 노출 */
+.main-header__nav {
+  display: block;
+}
+
+.main-header__nav-list {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.main-header__nav-item a,
+.main-header__nav-item span {
+  color: #ffffff;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.main-header__nav-item a:hover {
+  color: #2ecc71;
+}
+
+/* 햄버거 버튼 (모바일용) */
+.main-header__hamburger {
+  display: none;
+  font-size: 26px;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+/* 모바일 메뉴 */
+.main-header__mobile-nav {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 0;
+  background-color: #0e2e1c;
+  width: 200px;
+  padding: 20px;
+  z-index: 999;
+}
+
+.main-header__mobile-nav.active {
+  display: block;
+}
+
+.main-header__mobile-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.main-header__mobile-list li {
+  margin-bottom: 12px;
+}
+
+.main-header__mobile-list a,
+.main-header__mobile-list span {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+/* 반응형 처리 */
+@media (max-width: 768px) {
+  .main-header__nav {
     display: none;
-    font-size: 30px;
-    color: #fff;
-    cursor: pointer;
   }
-  
-  /* 모바일 메뉴 */
-  .mobile-nav {
-    display: none;
-    flex-direction: column;
-    background-color: #111;
-    position: absolute;
-    top: 80px;
-    right: 0;
-    width: 200px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
-    z-index: 999;
+
+  .main-header__hamburger {
+    display: block;
   }
-  
-  .mobile-nav ul {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .mobile-nav a,
-  .mobile-nav span {
-    color: #eee;
-    font-size: 16px;
-  }
-  
-  .mobile-nav.active {
-    display: flex;
-  }
-  
-  /* 반응형 대응 */
-  @media (max-width: 768px) {
-    .site-header .container {
-      padding: 0 20px;
-    }
-  
-    .hamburger {
-      display: block;
-    }
-  
-    .main-nav {
-      display: none;
-    }
-  
-    .mobile-nav {
-      display: none;
-    }
-  
-    .mobile-nav.active {
-      display: flex;
-    }
-  
-    .site-footer {
-      font-size: 13px;
-      padding: 20px 10px;
-    }
-  }
-  
+}
+
+.main-footer {
+  width: 100%;
+  background-color: #111; /* 어두운 바닥 배경 */
+  padding: 20px 0;
+  margin-top: 80px;
+  border-top: 1px solid #222;
+  text-align: center;
+}
+
+.main-footer__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.main-footer__text {
+  margin: 0;
+  font-size: 13px;         /* 기존보다 축소 */
+  color: var(--color-muted);
+  line-height: 1.6;
+}

@@ -14,14 +14,19 @@ unset($_SESSION['find_result']);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div class="auth-find">
-    <h2 class="auth-find__title">📬 이메일 전송 결과</h2>
-    <p class="auth-find__result"><?= nl2br(htmlspecialchars($result)) ?></p>
+  <div class="page-container">
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-    <div class="auth-find__action-buttons">
-      <a href="/html/auth/login_form.php" class="auth-find__btn">로그인</a>
-      <a href="/html/auth/find_pw.php" class="auth-find__btn">비밀번호 찾기</a>
+    <div class="auth">
+      <h2 class="auth__title">📬 이메일 전송 결과</h2>
+      <p class="auth__info"><?= nl2br(htmlspecialchars($result)) ?></p>
+
+      <div class="button-group" style="margin-top: 30px;">
+        <a href="/html/auth/login_form.php" class="button button--primary">로그인</a>
+        <a href="/html/auth/find_password.php" class="button button--secondary">비밀번호 찾기</a>
+      </div>
     </div>
   </div>
+  <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>
 </html>

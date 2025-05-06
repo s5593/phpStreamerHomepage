@@ -52,54 +52,58 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="../../css/notice/style.css">
 </head>
 <body>
-    <?php include_once(__DIR__ . '/../../header.php'); ?>
-    <div class="notice">
-        <h2 class="notice__title">공지사항</h2>
+    <div class="page-container">
+        <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-        <?php if (is_admin()): ?>
-            <form method="POST" action="write.php" style="margin-top:10px;">
-                <button type="submit" class="notice__write-button">[글쓰기]</button>
+        <div class="notice">
+            <h2 class="notice__title">📢 공지사항</h2>
+
+            <?php if (is_admin()): ?>
+            <form method="POST" action="write.php">
+                <button type="submit" class="button button--primary">[문서 작성]</button>
             </form>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <form method="GET" action="list.php" class="notice__search-form">
-            <input type="text" name="q" class="notice__search-input" placeholder="제목 검색" value="<?= htmlspecialchars($search) ?>">
-            <input type="submit" class="notice__search-button" value="검색">
-        </form>
+            <form method="GET" action="list.php" class="notice__search-form" style="margin-top: 10px;">
+                <input type="text" name="q" class="input" placeholder="제목 검색" value="<?= htmlspecialchars($search) ?>">
+                <button type="submit" class="button button--primary">검색</button>
+                <?php if ($search): ?>
+                    <a href="list.php" class="button button--secondary">검색 초기화</a>
+                <?php endif; ?>
+            </form>
 
-        <div class="notice__card-grid">
+            <div class="card-grid">
             <?php if ($result->num_rows === 0): ?>
-                <div class="notice__card notice__card--empty">
-                    공지사항이 없습니다.
-                </div>
+                <div class="card card--empty">공지사항이 없습니다.</div>
             <?php else: ?>
                 <?php while ($row = $result->fetch_assoc()): ?>
-                    <a href="view.php?id=<?= $row['id'] ?>" class="notice__card-link">
-                        <div class="notice__card">
-                            <div class="notice__card-image">
-                                <img src="<?= htmlspecialchars($row['image'] ?? '/uploads/main/image.png') ?>" alt="공지 이미지">
-                            </div>
-                            <div class="notice__card-content">
-                                <h4 class="notice__card-title"><?= htmlspecialchars($row['subject']) ?></h4>
-                                <span class="notice__card-date"><?= substr($row['created_at'], 0, 10) ?></span>
-                            </div>
-                        </div>
-                    </a>
+                <a href="view.php?id=<?= $row['id'] ?>" class="card">
+                    <div class="card__image">
+                        <img src="<?= htmlspecialchars($row['image'] ?? '/uploads/main/image.png') ?>" alt="공지 이미지">
+                    </div>
+                    <div class="card__content">
+                    <h4 class="card__title"><?= htmlspecialchars($row['subject']) ?></h4>
+                    <span class="card__meta"><?= substr($row['created_at'], 0, 10) ?></span>
+                    </div>
+                </a>
                 <?php endwhile; ?>
+            <?php endif; ?>
+            </div>
+
+            <?php if ($total_pages > 1): ?>
+            <div class="notice__pagination">
+                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="list.php?page=<?= $i ?>&q=<?= urlencode($search) ?>" class="notice__pagination-link <?= $i === $page ? 'active' : '' ?>">
+                    <?= $i ?>
+                </a>
+                <?php endfor; ?>
+            </div>
             <?php endif; ?>
         </div>
 
-        <?php if ($total_pages > 1): ?>
-            <div class="notice__pagination">
-                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                    <a href="list.php?page=<?= $i ?>&q=<?= urlencode($search) ?>" class="<?= $i === $page ? 'notice__pagination--active' : '' ?>">
-                        <?= $i ?>
-                    </a>
-                <?php endfor; ?>
-            </div>
-        <?php endif; ?>
     </div>
     <?php include_once(__DIR__ . '/../../footer.php'); ?>
+
     <script src="../../js/notice/editor.js"></script>
     <script src="../../js/notice/script.js"></script>
 </body>

@@ -1,63 +1,102 @@
 .admin {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-  }
-  
-  /* 공통 버튼 */
-  .admin__btn {
-    padding: 6px 12px;
-    margin: 4px;
-    text-decoration: none;
-    border: 1px solid #333;
-    display: inline-block;
-    border-radius: var(--radius);
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  /* 편집 버튼 */
-  .admin__btn--edit {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  /* 삭제 버튼 */
-  .admin__btn--delete {
-    background-color: #f44336;
-    color: white;
-  }
-  
-  /* 신규 추가 버튼 */
-  .admin__btn--new {
-    background-color: #2196F3;
-    color: white;
-    margin-bottom: 10px;
-  }
-  
-  /* 테이블 공통 */
-  .admin__table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 40px;
-    background-color: var(--color-surface);
-    color: var(--color-text);
-  }
-  
-  .admin__table th,
-  .admin__table td {
-    padding: 8px;
-    border: 1px solid #444;
-    text-align: center;
-  }
-  
-  .admin__table th {
-    background-color: #2a2a2a;
-  }
-  
-  /* 배너 썸네일 이미지 */
-  .admin__thumbnail {
-    width: 100px;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+/* ==============================
+   공통 테이블 스타일 (관리자 전용)
+============================== */
+.admin__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  margin-bottom: 40px;
+}
+
+.admin__table th,
+.admin__table td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #444;
+  vertical-align: middle;
+}
+
+.admin__table th {
+  background-color: #2a2a2a;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin__table td img {
+  max-width: 60px;
+  max-height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.admin__table td a.link-button {
+  padding: 6px 10px;
+  background-color: #3b3b3b;
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.admin__table .btn-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.link-button {
+  display: inline-block;
+  padding: 6px 10px;
+  background-color: #3b3b3b;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+/* ==============================
+   배너 썸네일 (작게 정리)
+============================== */
+.admin-banner__thumbnail {
+  width: 60px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* ==============================
+   관리자 메뉴 탭 (작게 정리)
+============================== */
+.admin-banner__tabs {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 20px 0 30px;
+}
+
+.admin-banner__tab {
+  padding: 10px 16px;
+  background-color: #2a2a2a;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: 6px 6px 0 0;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.admin-banner__tab:hover {
+  background-color: #3b3b3b;
+}
+
+.admin-banner__tab.active {
+  background-color: var(--color-primary);
+  color: #fff;
+}

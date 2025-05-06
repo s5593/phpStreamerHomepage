@@ -20,7 +20,7 @@ $user_id = current_user_id();
 $mb_level = current_user_level();
 
 // 기존 게시물 확인
-$stmt = $conn->prepare("SELECT author_id FROM board_video WHERE id = ? AND is_use = 1");
+$stmt = $conn->prepare("SELECT user_id FROM board_video WHERE id = ? AND is_use = 1");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $post = $stmt->get_result()->fetch_assoc();

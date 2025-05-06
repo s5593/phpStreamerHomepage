@@ -1,45 +1,44 @@
 .wiki {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 60px 20px;
-  }
-  
-  .wiki__title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .wiki__write-button {
-    padding: 8px 16px;
-    background-color: var(--color-primary);
-    color: var(--color-text);
-    border-radius: var(--radius);
-    text-decoration: none;
-    font-size: 14px;
-    display: inline-block;
-    transition: background-color 0.3s;
-    margin-bottom: 20px;
-  }
-  
-  .wiki__write-button:hover {
-    background-color: #27ae60;
-  }
-  
-  .wiki__search-form {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 30px;
-  }
-  
-  .wiki__search-form input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #222;
-    color: var(--color-text);
-    border: none;
-    border-radius: var(--radius);
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+}
+
+.wiki__title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.wiki__write-button {
+  padding: 8px 16px;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 14px;
+  display: inline-block;
+  transition: background-color 0.3s;
+  margin-bottom: 20px;
+}
+
+.wiki__write-button:hover {
+  background-color: #27ae60;
+}
+
+.wiki__search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.wiki__search-form input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  font-size: 16px;
+  background-color: #222;
+  color: var(--color-text);
+  border: none;
+  border-radius: var(--radius);
+}

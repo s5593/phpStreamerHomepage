@@ -20,33 +20,33 @@ $csrf_token = generate_csrf_token();
   <link rel="stylesheet" href="../../css/editor.css">
 </head>
 <body>
+<div class="page-container">
+  <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<?php include_once(__DIR__ . '/../../header.php'); ?>
+  <div class="wiki">
+    <div class="wiki__header">
+      <h2 class="wiki__title">위키 문서 작성</h2>
+    </div>
 
-<div class="wiki">
-  <div class="wiki__header">
-    <h2 class="wiki__title">위키 문서 작성</h2>
+    <form action="../../php/wiki/create.php" method="POST" id="wikiForm" data-editor-target="wiki" class="wiki__form">
+      <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
+
+      <div class="wiki__form-group">
+        <input type="text" name="subject" placeholder="제목을 입력하세요" required class="input input--title">
+      </div>
+
+      <div class="wiki__form-group">
+        <div id="editor" style="height: 500px;"></div>
+        <textarea name="content" id="content" style="display:none;"></textarea>
+      </div>
+
+      <div class="button-group button-group--right">
+          <button type="submit" class="button button--primary">작성 완료</button>
+          <a href="list.php" class="button button--secondary">목록으로</a>
+      </div>
+    </form>
   </div>
-
-  <form action="../../php/wiki/create.php" method="POST" id="wikiForm" data-editor-target="wiki" class="wiki__form">
-    <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-
-    <div class="wiki__form-group">
-      <input type="text" name="subject" placeholder="제목을 입력하세요" required class="wiki__input-title">
-    </div>
-
-    <div class="wiki__form-group">
-      <div id="editor" style="height: 500px;"></div>
-      <textarea name="content" id="content" style="display:none;"></textarea>
-    </div>
-
-    <div class="wiki__button-group">
-      <input type="submit" value="작성 완료" class="wiki__btn wiki__btn--submit">
-      <a href="list.php" class="wiki__btn wiki__btn--back">목록으로</a>
-    </div>
-  </form>
 </div>
-
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>

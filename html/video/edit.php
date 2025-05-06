@@ -65,38 +65,50 @@ $video_url = restore_full_url($post['video_url'] ?? '');
   <link rel="stylesheet" href="/css/video/style.css">
 </head>
 <body>
-<?php include_once(__DIR__ . '/../../header.php'); ?>
+  <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-<div class="video-edit-container">
-  <h1>영상 수정</h1>
+  <div class="page-container">
+    <div class="video">
+      <h1 class="video__title">영상 수정</h1>
 
-  <form method="post" action="/php/video/update.php" class="video-form">
-    <input type="hidden" name="id" value="<?= htmlspecialchars($post['id']) ?>">
-    <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+      <form method="post" action="/php/video/update.php" class="form">
+        <input type="hidden" name="id" value="<?= htmlspecialchars($post['id']) ?>">
+        <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
 
-    <div class="form-group">
-      <label for="subject">제목</label>
-      <input type="text" id="subject" name="subject" required maxlength="100" value="<?= htmlspecialchars($post['subject']) ?>">
+        <!-- 제목 -->
+        <div class="form__group">
+          <label for="subject" class="form__label">제목</label>
+          <input type="text" id="subject" name="subject" class="input" required maxlength="100"
+                 value="<?= htmlspecialchars($post['subject']) ?>">
+        </div>
+
+        <!-- 영상 URL -->
+        <div class="form__group">
+          <label for="video_url" class="form__label">영상 URL</label>
+          <input type="text" id="video_url" name="video_url" class="input" required maxlength="255"
+                 value="<?= htmlspecialchars($video_url) ?>">
+        </div>
+
+        <!-- 키워드 -->
+        <div class="form__group">
+          <label for="keywords" class="form__label">
+            추천 키워드 <span class="form__hint">(쉼표로 구분)</span>
+          </label>
+          <input type="text" id="keywords" name="keywords" class="input"
+                 placeholder="예: 액션,롤플레잉,트위치"
+                 value="<?= htmlspecialchars($post['keywords']) ?>">
+        </div>
+
+        <!-- 버튼 -->
+        <div class="button-group">
+          <button type="submit" class="button button--primary">저장하기</button>
+          <button type="button" class="button button--secondary" onclick="location.href='view.php?id=<?= $post['id'] ?>'">취소</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label for="video_url">영상 URL</label>
-      <input type="text" id="video_url" name="video_url"
-            value="<?= htmlspecialchars($video_url) ?>" required maxlength="255">
-    </div>
-
-    <div class="form-group">
-      <label for="keywords">추천 키워드 (쉼표로 구분)</label>
-      <input type="text" id="keywords" name="keywords" class="form-control" placeholder="예: 액션,롤플레잉,트위치" value="<?= htmlspecialchars($post['keywords']) ?>">
-    </div>
-
-    <div class="form-button-group">
-      <button type="submit" class="save-button">저장하기</button>
-      <button type="button" class="cancel-button" onclick="location.href='view.php?id=<?= $post['id'] ?>'">취소</button>
-    </div>
-  </form>
-</div>
-
-<?php include_once(__DIR__ . '/../../footer.php'); ?>
+  <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>
+
 </html>

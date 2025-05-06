@@ -67,48 +67,50 @@ $result = $stmt->get_result();
   <link rel="stylesheet" href="/css/video/search.css">
 </head>
 <body>
-<?php include_once(__DIR__ . '/../../header.php'); ?>
-  <div class="video">
-    <div class="video__header">
-      <h1 class="video__title">🎮 영상 게시판</h1>
-      <?php if ($is_logged_in): ?>
-        <a href="write.php" class="video__write-button">+ 글쓰기</a>
-      <?php endif; ?>
-    </div>
+  <div class="page-container">
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
+    <div class="video">
+      <div class="video__header">
+        <h1 class="video__title">🎮 영상 게시판</h1>
+        <?php if ($is_logged_in): ?>
+          <a href="write.php" class="video__write-button">+ 글쓰기</a>
+        <?php endif; ?>
+      </div>
 
-    <?php include_once(__DIR__ . '/search.php'); ?>
+      <?php include_once(__DIR__ . '/search.php'); ?>
 
-    <div class="video__card-grid">
-      <?php while ($row = $result->fetch_assoc()): ?>
-        <?php
-          $video_id = $row['video_url'];
-          $thumbnail_url = preg_match('/^[a-zA-Z0-9_-]{11}$/', $video_id)
-            ? "https://img.youtube.com/vi/{$video_id}/hqdefault.jpg"
-            : "/uploads/main/image.png";
-        ?>
-        <a href="/html/video/view.php?id=<?= htmlspecialchars($row['id']) ?>" class="video__card-link">
-          <div class="video__card">
-            <div class="video__thumbnail" style="background-image: url('<?= $thumbnail_url ?>');"></div>
-            <div class="video__card-body">
-              <div class="video__card-title"><?= htmlspecialchars($row['subject']) ?></div>
-              <div class="video__card-writer">작성자: <?= htmlspecialchars($row['mb_id']) ?></div>
+      <div class="card-grid">
+        <?php while ($row = $result->fetch_assoc()): ?>
+          <?php
+            $video_id = $row['video_url'];
+            $thumbnail_url = preg_match('/^[a-zA-Z0-9_-]{11}$/', $video_id)
+              ? "https://img.youtube.com/vi/{$video_id}/hqdefault.jpg"
+              : "/uploads/main/image.png";
+          ?>
+          <a href="/html/video/view.php?id=<?= htmlspecialchars($row['id']) ?>" class="card-link">
+            <div class="card">
+              <div class="card__image" style="background-image: url('<?= $thumbnail_url ?>');"></div>
+              <div class="card__content">
+                <h3 class="card__title"><?= htmlspecialchars($row['subject']) ?></h3>
+                <p class="card__meta">작성자: <?= htmlspecialchars($row['mb_id']) ?></p>
+              </div>
             </div>
-          </div>
-        </a>
-      <?php endwhile; ?>
-    </div>
+          </a>
+        <?php endwhile; ?>
+      </div>
 
-    <div class="video__pagination">
-      <?php
-      $total_pages = ceil($total / $page_size);
-      for ($i = 1; $i <= $total_pages; $i++):
-        $link = "list.php?page=$i";
-        if ($search) $link .= '&q=' . urlencode($search);
-      ?>
-        <a href="<?= $link ?>" class="video__page-button <?= $i === $page ? 'video__page-button--active' : '' ?>">
-          <?= $i ?>
-        </a>
-      <?php endfor; ?>
+      <div class="video__pagination">
+        <?php
+        $total_pages = ceil($total / $page_size);
+        for ($i = 1; $i <= $total_pages; $i++):
+          $link = "list.php?page=$i";
+          if ($search) $link .= '&q=' . urlencode($search);
+        ?>
+          <a href="<?= $link ?>" class="video__page-button <?= $i === $page ? 'video__page-button--active' : '' ?>">
+            <?= $i ?>
+          </a>
+        <?php endfor; ?>
+      </div>
     </div>
   </div>
 <?php include_once(__DIR__ . '/../../footer.php'); ?>

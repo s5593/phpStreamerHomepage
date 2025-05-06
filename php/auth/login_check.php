@@ -9,7 +9,7 @@ function log_login_attempt($mb_id, $success) {
         INSERT INTO g5_login_log (mb_id, ip_address, user_agent, login_datetime, success)
         VALUES (?, ?, ?, NOW(), ?)
     ");
-    $stmt->bind_param("ssss", $mb_id, $ip, $ua, $success);
+    $stmt->bind_param("sssi", $mb_id, $ip, $ua, $success);
     $stmt->execute();
     $stmt->close();
 }
@@ -78,34 +78,34 @@ $user = $result->fetch_assoc();
 $stmt->close();
 
 if (!$user) {
-    log_login_attempt($mb_id, 'N');
+    log_login_attempt($mb_id, '0');
     show_alert_and_back("존재하지 않는 아이디입니다.");
 }
 
 if ($user['mb_is_leave']) {
-    log_login_attempt($mb_id, 'N');
+    log_login_attempt($mb_id, '0');
     show_alert_and_back("탈퇴한 계정입니다.");
 }
 
 if ($user['mb_is_intercepted']) {
-    log_login_attempt($mb_id, 'N');
+    log_login_attempt($mb_id, '0');
     show_alert_and_back("차단된 계정입니다.");
 }
 
 // ✅ 이메일 인증 확인
 if ((int)$user['mb_email_certified'] !== 1) {
-    log_login_attempt($mb_id, 'N');
+    log_login_attempt($mb_id, '0');
     show_alert_and_back("이메일 인증이 완료되지 않았습니다.");
 }
 
 // 비밀번호 확인
 if (!password_verify($mb_password, $user['mb_password'])) {
-    log_login_attempt($mb_id, 'N');
+    log_login_attempt($mb_id, '0');
     show_alert_and_back("비밀번호가 일치하지 않습니다.");
 }
 
 // ✅ 로그인 성공 시 로그 기록
-log_login_attempt($mb_id, 'Y');
+log_login_attempt($mb_id, '1');
 
 // ✅ 세션 고정 방지 (기존 세션 제거 → 새 ID 발급)
 session_regenerate_id(true);

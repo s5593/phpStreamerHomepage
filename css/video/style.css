@@ -24,36 +24,42 @@
   .video__write-button:hover {
     background-color: #27ae60;
   }
+
+  .search-form {
+    margin-top: 30px;
+  }
   
-  .video__search-form {
-    margin-bottom: 20px;
+  .search-form__row {
     display: flex;
-    gap: 8px;
-  }
-  
-  .video__search-input {
-    padding: 8px;
-    width: 250px;
+    gap: 10px;
     background-color: #222;
+    color: var(--color-text);
     border: none;
     border-radius: var(--radius);
-    color: var(--color-text);
+    font-size: 15px;
   }
   
-  .video__search-button {
-    padding: 8px 16px;
-    background-color: #333;
-    color: var(--color-text);
+  .input--text {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
     border-radius: var(--radius);
+    background-color: #222;
+    color: var(--color-text);
     border: none;
-    cursor: pointer;
   }
   
-  .video__search-button:hover {
-    background-color: #444;
+  /* 안내문 */
+  .search-form__guide {
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-top: 10px;
+    line-height: 1.6;
   }
   
-  .video__card-grid {
+  
+  
+  .video___card-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;

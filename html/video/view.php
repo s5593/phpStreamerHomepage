@@ -59,61 +59,67 @@ if (current_user_no()) {
   <?php endif; ?>
 </head>
 <body>
-<?php include_once(__DIR__ . '/../../header.php'); ?>
+  <div class="page-container">
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-  <div class="video">
-    <h1 class="video__title"><?= htmlspecialchars($post['subject']) ?></h1>
-    <p class="video__writer">작성자: <?= htmlspecialchars($post['mb_id']) ?></p>
-    <p class="video__date">등록일: <?= date('Y-m-d H:i', strtotime($post['created_at'])) ?></p>
+    <div class="video">
+      <h1 class="video__title"><?= htmlspecialchars($post['subject']) ?></h1>
+      <p class="video__writer">작성자: <?= htmlspecialchars($post['mb_id']) ?></p>
+      <p class="video__date">등록일: <?= date('Y-m-d H:i', strtotime($post['created_at'])) ?></p>
 
-    <?php if (!empty($post['keywords'])): ?>
-      <div class="video__keywords">
-        <?php
-          $keywords = array_filter(array_map('trim', explode(',', $post['keywords'])));
-          foreach ($keywords as $kw):
-        ?>
-          <button type="button" class="video__keyword-btn" disabled><?= htmlspecialchars($kw) ?></button>
-        <?php endforeach; ?>
+      <?php if (!empty($post['keywords'])): ?>
+        <div class="video__keywords">
+          <?php
+            $keywords = array_filter(array_map('trim', explode(',', $post['keywords'])));
+            foreach ($keywords as $kw):
+          ?>
+            <button type="button" class="video__keyword-btn" disabled><?= htmlspecialchars($kw) ?></button>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+
+      <div class="video__frame-wrapper">
+        <?php if ($is_youtube): ?>
+          <div id="youtube-player"></div>
+        <?php else: ?>
+          <iframe
+            src="https://chzzk.naver.com/embed/clip/<?= htmlspecialchars($video_id) ?>"
+            width="90%" height="450"
+            frameborder="0"
+            allow="autoplay; clipboard-write; web-share"
+            allowfullscreen
+            title="CHZZK Player">
+          </iframe>
+        <?php endif; ?>
       </div>
-    <?php endif; ?>
 
-    <div class="video__frame-wrapper">
-      <?php if ($is_youtube): ?>
-        <div id="youtube-player"></div>
-      <?php else: ?>
-        <iframe
-          src="https://chzzk.naver.com/embed/clip/<?= htmlspecialchars($video_id) ?>"
-          width="90%" height="450"
-          frameborder="0"
-          allow="autoplay; clipboard-write; web-share"
-          allowfullscreen
-          title="CHZZK Player">
-        </iframe>
-      <?php endif; ?>
-    </div>
-
-    <div class="video__like-wrapper">
-      <form class="video__like-form">
-        <button type="button" class="video__like-btn" data-video-id="<?= $post['id'] ?>">
-          <i class="fa<?= $like_checked ? 's' : 'r' ?> fa-heart video__like-icon"></i>
-          <span id="like-count"><?= $like_count ?></span>
-        </button>
-      </form>
-    </div>
-
-    <div class="video__button-group">
-      <?php if (current_user_no() === intval($post['user_id'])): ?>
-        <form method="post" action="edit.php" style="display:inline;">
-          <input type="hidden" name="id" value="<?= htmlspecialchars($post['id']) ?>">
-          <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-          <button type="submit" class="video__btn video__btn--edit">수정하기</button>
+      <div class="video__like-wrapper">
+        <form class="video__like-form">
+          <button type="button" class="video__like-btn" data-video-id="<?= $post['id'] ?>">
+            <i class="fa<?= $like_checked ? 's' : 'r' ?> fa-heart video__like-icon"></i>
+            <span id="like-count"><?= $like_count ?></span>
+          </button>
         </form>
-      <?php endif; ?>
+      </div>
 
-      <a href="list.php" class="video__btn video__btn--back">목록으로</a>
+      <div class="button-group">
+        <?php if (current_user_no() === intval($post['user_id'])): ?>
+          <form method="post" action="edit.php" style="display:inline;">
+            <input type="hidden" name="id" value="<?= htmlspecialchars($post['id']) ?>">
+            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+            <button type="submit" class="button button--edit">수정하기</button>
+          </form>
+          <form action="/php/video/delete.php" method="POST" class="video__form--inline" onsubmit="return confirm('삭제하시겠습니까?');" style="display:inline;">
+            <input type="hidden" name="id" value="<?= $post['id'] ?>">
+            <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+            <button type="submit" class="button button--delete">삭제</button>
+          </form>
+        <?php endif; ?>
+
+        <a href="list.php" class="button button--secondary">목록으로</a>
+      </div>
     </div>
-  </div>
-
+</div>
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
 
 <?php if ($is_youtube): ?>

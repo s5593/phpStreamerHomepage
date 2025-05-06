@@ -44,20 +44,43 @@ $_SESSION['reset_mb_id'] = $mb_id;
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <div class="auth-reset">
-    <h2 class="auth-reset__title">🔒 비밀번호 재설정</h2>
+  <div class="page-container">
+    <?php include_once(__DIR__ . '/../../header.php'); ?>
 
-    <form action="/php/auth/reset_password_action.php" method="post" class="auth-reset__form">
-      <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
+    <div class="auth">
+      <h2 class="auth__title">🔒 비밀번호 재설정</h2>
 
-      <label for="new_pw" class="auth-reset__label">새 비밀번호</label>
-      <input type="password" id="new_pw" name="new_pw" required class="auth-reset__input">
+      <form action="/php/auth/reset_password_action.php" method="post" class="auth__form">
+        <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
 
-      <label for="new_pw_confirm" class="auth-reset__label">새 비밀번호 확인</label>
-      <input type="password" id="new_pw_confirm" name="new_pw_confirm" required class="auth-reset__input">
+        <!-- 비밀번호 -->
+        <div class="form__group">
+          <label for="mb_password" class="form__label">비밀번호</label>
+          <input type="password" name="new_pw" id="mb_password" class="input" required autocomplete="off">
+          <ul id="pw_rules" class="form__pw-checklist">
+            <li id="pw_length">8자 이상</li>
+            <li id="pw_max">30자 이하</li>
+            <li id="pw_letter">영문 포함</li>
+            <li id="pw_number">숫자 포함</li>
+            <li id="pw_special">특수문자 포함 (!@#$%^&*()_-)</li>
+            <li id="pw_allowed">허용된 문자만 사용</li>
+          </ul>
+        </div>
 
-      <button type="submit" class="auth-reset__submit-btn">비밀번호 변경</button>
-    </form>
+        <!-- 비밀번호 확인 -->
+        <div class="form__group">
+          <label for="mb_password_confirm" class="form__label">비밀번호 확인</label>
+          <input type="password" name="new_pw_confirm" id="mb_password_confirm" class="input" required autocomplete="off">
+          <small id="pw_match_message" class="form__help"></small>
+        </div>
+        
+        <div class="button-group">
+          <button type="submit" class="button button--primary">비밀번호 변경</button>
+        </div>
+      </form>
+    </div>
   </div>
+  <?php include_once(__DIR__ . '/../../footer.php'); ?>
 </body>
+
 </html>

@@ -1,5 +1,5 @@
 <!-- /html/footer.php -->
-<link rel="stylesheet" href="/css/main/footer.css">
+<link rel="stylesheet" href="/css/main/style.css">
 
 <footer class="main-footer">
   <div class="main-footer__container">

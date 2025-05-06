@@ -10,10 +10,10 @@ $search_type = $_GET['type'] ?? 'subject';
 ?>
 
 <!-- 검색 폼 -->
-<form method="get" action="list.php" class="video__search-form">
+<form method="get" action="list.php" class="search-form" style="margin-bottom: 10px;">
   <!-- select + input -->
-  <div class="video__search-row">
-    <select name="type" class="video__search-type">
+  <div class="search-form__row">
+    <select name="type" class="input--select">
       <option value="subject" <?= $search_type === 'subject' ? 'selected' : '' ?>>제목</option>
       <option value="keywords" <?= $search_type === 'keywords' ? 'selected' : '' ?>>키워드</option>
     </select>
@@ -21,21 +21,22 @@ $search_type = $_GET['type'] ?? 'subject';
     <input type="text" name="q"
            value="<?= htmlspecialchars($search) ?>"
            placeholder="검색어 입력"
-           class="video__search-input">
-  </div>
-
-  <!-- 버튼 그룹 -->
-  <div class="video__search-button-row">
-    <button type="submit" class="video__search-btn video__search-btn--submit">검색</button>
-    <button type="button" class="video__search-btn video__search-btn--reset" onclick="location.href='list.php'">초기화</button>
+           class="input input--text">
   </div>
 
   <!-- 안내 텍스트 -->
-  <div class="video__search-guide">
+  <div class="search-form__guide">
     <p><strong>제목</strong>: 검색어 입력</p>
-    <p><strong>키워드</strong>: 검색어 입력 (,로 구분)</p>
+    <p><strong>키워드</strong>: 검색어 입력 (쉼표 `,`로 구분)</p>
+  </div>
+
+  <!-- 버튼 그룹 -->
+  <div class="button-group button-group--right">
+    <button type="submit" class="button button--primary">검색</button>
+    <button type="button" class="button button--secondary" onclick="location.href='list.php'">검색 초기화</button>
   </div>
 </form>
+
 
 <!-- 추천 키워드 영역 -->
 <div class="video__keyword-section" id="popular-keywords">

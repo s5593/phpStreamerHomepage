@@ -33,35 +33,36 @@ $csrf_token = generate_csrf_token();
     <link rel="stylesheet" href="../../css/notice/style.css">
 </head>
 <body>
-    <?php include_once(__DIR__ . '/../../header.php'); ?>
-    <div class="notice">
-        <h2 class="notice__title"><?= htmlspecialchars($post['subject']) ?></h2>
+    <div class="page-container">
+        <?php include_once(__DIR__ . '/../../header.php'); ?>
+        <div class="notice">
+            <h2 class="notice__title"><?= htmlspecialchars($post['subject']) ?></h2>
 
-        <div class="notice__content">
-            <?= $post['content'] ?> <!-- HTML 포함 내용 -->
-        </div>
+            <div class="notice__content">
+                <?= $post['content'] ?> <!-- HTML 포함 내용 -->
+            </div>
 
-        <p class="notice__date">작성일: <?= $post['created_at'] ?></p>
+            <p class="notice__date">작성일: <?= $post['created_at'] ?></p>
 
-        <div class="notice__btn-group">
-            <?php if (is_admin()): ?>
-                <form method="POST" action="edit.php" style="display:inline;">
+            <div class="button-group">
+                <?php if (is_admin()): ?>
+                    <form method="POST" action="edit.php" style="display:inline;">
                     <input type="hidden" name="id" value="<?= $post['id'] ?>">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-                    <button type="submit" class="notice__btn notice__btn--edit">수정</button>
-                </form>
+                    <button type="submit" class="button button--edit">수정</button>
+                    </form>
 
-                <form method="POST" action="/php/notice/delete.php" style="display:inline;">
+                    <form method="POST" action="/php/notice/delete.php" style="display:inline;">
                     <input type="hidden" name="id" value="<?= $post['id'] ?>">
                     <input type="hidden" name="csrf_token" value="<?= generate_csrf_token() ?>">
-                    <button type="submit" class="notice__btn notice__btn--delete">삭제</button>
-                </form>
-            <?php endif; ?>
+                    <button type="submit" class="button button--delete">삭제</button>
+                    </form>
+                <?php endif; ?>
 
-            <a href="list.php" class="notice__btn notice__btn--back">목록으로</a>
+                <a href="list.php" class="button button--secondary">목록으로</a>
+            </div>
         </div>
     </div>
-
     <?php include_once(__DIR__ . '/../../footer.php'); ?>
     <script src="../../js/notice/script.js"></script>
 </body>
