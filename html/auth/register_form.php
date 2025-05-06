@@ -41,7 +41,7 @@ if (!isset($_SESSION['agreed_to_terms']) || $_SESSION['agreed_to_terms'] !== tru
             <input type="text" name="mb_id" id="mb_id" class="input" autocomplete="off" required>
             <button type="button" id="btn_check_id" class="button button--secondary">중복 확인</button>
           </div>
-          <small id="id_check_message" class="form__help"></small>
+          <small id="id_check_message" class="form__help"></small><br>
           <small id="id_help" class="form__help">4자 이상, 영어 또는 숫자만 입력하세요.</small>
         </div>
 

@@ -1,9 +1,9 @@
 <?php
-session_start();
+include_once(__DIR__ . '/../../lib/common.php');
 
 $message = $_SESSION['verify_result'] ?? null;
 unset($_SESSION['verify_result']);
-
+echo''. $message .'';
 if (!$message) {
     // 어떤 메시지도 전달되지 않은 경우
     $message = '관리자에게 문의해주세요.';
@@ -26,7 +26,7 @@ if (!$message) {
 
     <div class="auth">
       <h2 class="auth__title">📬 이메일 전송 결과</h2>
-      <p class="auth__info"><?= nl2br(htmlspecialchars($result)) ?></p>
+      <p class="auth__info"><?php echo nl2br(htmlspecialchars($message)); ?></p>
 
       <div class="button-group" style="margin-top: 30px;">
         <a href="/html/auth/login_form.php" class="button button--primary">로그인</a>

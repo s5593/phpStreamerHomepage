@@ -22,7 +22,7 @@ include_once(__DIR__ . '/../../lib/common.php');
       <p class="auth-complete__text"><strong>이메일 인증을 완료해야 로그인할 수 있습니다.</strong></p>
       <p class="auth-complete__text">메일이 오지 않았다면 스팸함을 확인해주세요.</p>
 
-      <a href="<?= get_base_url() ?>/html/auth/login_form.php" class="auth-complete__btn">로그인하러 가기</a>
+      <a href="<?= get_base_url() ?>/html/auth/login_form.php" class="button button--primary">로그인하러 가기</a>
     </div>
   </div>
 

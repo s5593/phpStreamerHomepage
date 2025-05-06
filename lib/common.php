@@ -9,7 +9,7 @@ if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
         'domain' => '',
         'secure' => $is_https,
         'httponly' => true,
-        'samesite' => 'Strict'
+        'samesite' => 'Lax'
     ]);
 
     session_start();
@@ -56,6 +56,9 @@ function get_base_url() {
 }
 
 function redirect_to($relative_path) {
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        session_write_close();  // ✅ 세션 강제 저장
+    }
     header("Location: " . get_base_url() . $relative_path);
     exit;
 }

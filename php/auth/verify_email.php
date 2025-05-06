@@ -5,6 +5,7 @@ $token = $_GET['token'] ?? '';
 
 if (!$token) {
     $_SESSION['verify_result'] = '잘못된 접근입니다.';
+    session_write_close();
     redirect_to('/html/auth/verify_result.php');
     exit;
 }
@@ -16,6 +17,7 @@ $stmt->store_result();
 
 if ($stmt->num_rows === 0) {
     $_SESSION['verify_result'] = '유효하지 않은 토큰입니다.';
+    session_write_close();
     redirect_to('/html/auth/verify_result.php');
     exit;
 }
@@ -29,6 +31,7 @@ $created_time = strtotime($token_created);
 $current_time = time();
 if (($current_time - $created_time) > 3600) {
     $_SESSION['verify_result'] = '이메일 인증 유효 시간이 만료되었습니다. 다시 시도해주세요.';
+    session_write_close();
     redirect_to('/html/auth/verify_result.php');
     exit;
 }
@@ -44,5 +47,6 @@ $update->execute();
 $update->close();
 
 $_SESSION['verify_result'] = '이메일 인증이 완료되었습니다. 로그인해주세요!';
+session_write_close();
 redirect_to('/html/auth/verify_result.php');
 exit;

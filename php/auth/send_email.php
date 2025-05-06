@@ -34,7 +34,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'rlaqjatn5593@gmail.com';       // Gmail 주소
-    $mail->Password = 'bzvrrwgptkixlbin';             // Gmail 앱 비밀번호
+    $mail->Password = 'tuwzxhodmzuryzwk';             // Gmail 앱 비밀번호
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 
