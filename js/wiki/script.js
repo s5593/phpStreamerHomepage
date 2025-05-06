@@ -1,46 +1,37 @@
-// window.addEventListener('DOMContentLoaded', () => {
-//   const videoBtn = document.getElementById('videoUploadBtn');
-//   if (videoBtn) {
-//     videoBtn.addEventListener('click', () => {
-//       const input = document.createElement('input');
-//       input.type = 'file';
-//       input.accept = 'video/mp4';
-//       input.style.display = 'none';
-
-//       input.addEventListener('change', async () => {
-//         const file = input.files[0];
-//         if (!file) return;
-//         if (file.size > 50 * 1024 * 1024) {
-//           alert('50MB 이하의 mp4만 가능합니다.');
-//           return;
-//         }
-
-//         const formData = new FormData();
-//         formData.append('file', file);
-
-//         try {
-//           const res = await fetch('/php/wiki/upload_video.php', {
-//             method: 'POST',
-//             body: formData
-//           });
-
-//           const result = await res.json();
-//           if (result.success) {
-//             tinymce.activeEditor.execCommand('mceInsertContent', false, result.html);
-//           } else {
-//             alert(result.message || '업로드 실패');
-//           }
-//         } catch (err) {
-//           alert('서버 오류 발생');
-//         }
-//       });
-
-//       document.body.appendChild(input);
-//       input.click();
-//       document.body.removeChild(input);
-//     });
-//   }
-// });
-
-
-
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleBtn = document.getElementById('tocToggleBtn');
+    const toc = document.getElementById('toc');
+    const content = document.getElementById('wiki-content');
+  
+    // 토글 버튼 기능
+    if (toggleBtn && toc) {
+      toggleBtn.addEventListener('click', () => {
+        const isVisible = toc.classList.toggle('show');
+        toggleBtn.textContent = isVisible ? '▲ 접기' : '▼ 펼치기';
+      });
+    }
+  
+    // 목차 생성: h1 ~ h3
+    if (toc && content) {
+      const headings = content.querySelectorAll('h1, h2, h3');
+      if (headings.length > 0) {
+        const ul = document.createElement('ul');
+        headings.forEach((heading, idx) => {
+          const id = 'heading-' + idx;
+          heading.id = id;
+  
+          const li = document.createElement('li');
+          li.classList.add('toc-item', heading.tagName.toLowerCase()); // h1, h2, h3
+  
+          const a = document.createElement('a');
+          a.href = '#' + id;
+          a.textContent = heading.textContent;
+  
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        toc.appendChild(ul);
+      }
+    }
+});
+  

@@ -42,9 +42,20 @@ if (!$post) {
     <h2 class="wiki__title"><?= htmlspecialchars($post['subject']) ?></h2>
 
     <div class="wiki__card">
-      <div class="wiki__content">
-        <?= $post['content'] ?>
+      <button id="tocToggleBtn" class="wiki__toc-toggle">▼ 펼치기</button>
+
+      <div class="wiki-layout">
+        <!-- 왼쪽: 콘텐츠 -->
+        <div id="wiki-content" class="wiki__content">
+          <?= $post['content'] ?>
+        </div>
+
+        <!-- 오른쪽: 목차 -->
+        <div id="toc" class="wiki-toc">
+          <!-- JS로 자동 생성됨 -->
+        </div>
       </div>
+
       <div class="wiki__meta">작성일: <?= date('Y-m-d H:i:s', strtotime($post['created_at'])) ?></div>
     </div>
 
@@ -62,5 +73,6 @@ if (!$post) {
   </div>
 </div>
 <?php include_once(__DIR__ . '/../../footer.php'); ?>
+<script src="../../js/wiki/script.js" defer></script>
 </body>
 </html>

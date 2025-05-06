@@ -33,12 +33,124 @@
   margin-bottom: 30px;
 }
 
-.wiki__search-form input[type="text"] {
+/* ================================
+   📌 기본 레이아웃
+================================ */
+.wiki-layout {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.wiki__content {
   flex: 1;
-  padding: 10px;
+}
+
+/* ================================
+   📌 토글 버튼 (공통 설정)
+================================ */
+.wiki__toc-toggle {
+  display: none; /* PC 기본 숨김 */
+}
+
+/* ================================
+   📌 목차 영역 스타일
+================================ */
+.wiki-toc {
+  width: 240px;
+  padding: 16px;
+  background-color: #1f2426;
+  border: 1px solid #2ecc71;
+  border-radius: 8px;
+  position: sticky;
+  top: 0;
+  display: block;
+  margin-bottom: 20px;
+}
+
+/* 목차 목록 스타일 */
+.wiki-toc ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.wiki-toc li {
+  margin: 8px 0;
+}
+
+.wiki-toc .toc-item.h1 {
+  padding-left: 0;
+  font-weight: 700;
   font-size: 16px;
-  background-color: #222;
-  color: var(--color-text);
-  border: none;
-  border-radius: var(--radius);
+}
+
+.wiki-toc .toc-item.h2 {
+  padding-left: 16px;
+  font-weight: 600;
+}
+
+.wiki-toc .toc-item.h3 {
+  padding-left: 32px;
+  font-weight: normal;
+}
+
+.wiki-toc a {
+  color: #2ecc71;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+
+.wiki-toc a:hover {
+  color: #36f98b;
+  text-decoration: underline;
+}
+
+/* ================================
+   📱 모바일 대응
+================================ */
+@media (max-width: 768px) {
+  .wiki-layout {
+    flex-direction: column;
+  }
+
+  .wiki__content {
+    order: 2;
+  }
+
+  .wiki-toc {
+    display: none;
+    position: sticky;
+    top: 35px; /* 버튼 높이보다 약간 여유 있게 */
+    z-index: 500;
+    margin-top: 0;
+  }
+
+  .wiki-toc.show {
+    display: block;
+  }
+
+  .wiki__toc-toggle {
+    display: inline-block;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #2ecc71;
+    color: #171b1c;
+    border: none;
+    padding: 6px 12px;
+    margin-bottom: 4px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+
+  .wiki__toc-toggle:hover {
+    background-color: #27c56c;
+    transform: translateY(-1px);
+  }
 }

@@ -49,24 +49,24 @@ function is_login_blocked($mb_id) {
 
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    redirect_error("잘못된 요청 방식입니다.");
+    show_alert_and_back("잘못된 요청 방식입니다.");
 }
 
 // ✅ CSRF 토큰 검증
 if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
-    redirect_error("CSRF 토큰 오류입니다.");
+    show_alert_and_back("CSRF 토큰 오류입니다.");
 }
 
 $mb_id = trim($_POST['mb_id'] ?? '');
 $mb_password = $_POST['mb_password'] ?? '';
 
 if (!$mb_id || !$mb_password) {
-    redirect_error("아이디와 비밀번호를 입력해주세요.");
+    show_alert_and_back("아이디와 비밀번호를 입력해주세요.");
 }
 
 // ✅ 로그인 차단 여부 확인 (10분간 5회 실패 시 차단)
 if (is_login_blocked($mb_id)) {
-    redirect_error("로그인 시도 횟수가 너무 많습니다. 10분 후 다시 시도해주세요.");
+    show_alert_and_back("로그인 시도 횟수가 너무 많습니다. 10분 후 다시 시도해주세요.");
 }
 
 // 사용자 정보 조회
