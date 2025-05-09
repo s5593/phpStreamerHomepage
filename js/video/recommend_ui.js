@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
       keywords.slice(0, 5).forEach(word => {
         const btn = document.createElement('button');
         btn.textContent = word;
-        btn.className = 'keyword-item';
+        btn.className = 'video__keyword-btn';
         btn.style.marginRight = '8px';
         btn.style.cursor = 'pointer';
 
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         keywords.slice(0, 5).forEach(word => {
           const btn = document.createElement('button');
           btn.textContent = word;
-          btn.className = 'keyword-item';
+          btn.className = 'video__keyword-btn';
           btn.style.marginRight = '8px';
           btn.style.cursor = 'pointer';
 

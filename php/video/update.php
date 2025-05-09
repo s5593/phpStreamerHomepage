@@ -22,15 +22,17 @@ if (!$user_id) {
 if ($id <= 0 || !$subject || !$video_url) {
     redirect_with_message('필수 입력값이 누락되었습니다.', "/html/video/edit.php?id={$id}");
 }
+
 if (mb_strlen($subject) > 100 || mb_strlen($video_url) > 255) {
     redirect_with_message('입력값이 너무 깁니다.', "/html/video/edit.php?id={$id}");
 }
 
-$video_id = extract_video_id($video_url);
-if (!$video_id) {
-    redirect_with_message('유효한 YouTube URL 또는 치지직 클립만 등록 가능합니다.', "/html/video/edit.php?id={$id}");
+// ✅ 전체 URL 저장하는 방식이므로 ID 추출 X → 유효성만 검사
+if (!is_valid_video_url($video_url)) {
+    redirect_with_message('유효한 YouTube 또는 치지직 클립 URL만 입력 가능합니다.', "/html/video/edit.php?id={$id}");
 }
 
+// 권한 확인
 $stmt = $conn->prepare("SELECT user_id FROM board_video WHERE id = ? AND is_use = 1");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -44,17 +46,19 @@ if ($user_id !== intval($post['user_id'])) {
     redirect_with_message('수정 권한이 없습니다.', "/html/video/edit.php?id={$id}");
 }
 
+// 키워드
 $keywords = trim($_POST['keywords'] ?? '');
 if (mb_strlen($keywords) > 255) {
     redirect_with_message('키워드는 255자 이하로 입력해주세요.', "/html/video/edit.php?id={$id}");
 }
 
+// UPDATE 실행
 $stmt = $conn->prepare("
     UPDATE board_video
     SET subject = ?, video_url = ?, keywords = ?, updated_at = NOW()
     WHERE id = ? AND is_use = 1
 ");
-$stmt->bind_param("sssi", $subject, $video_id, $keywords, $id);
+$stmt->bind_param("sssi", $subject, $video_url, $keywords, $id);
 
 if (!$stmt->execute()) {
     error_log("영상 수정 실패: " . $stmt->error);
@@ -65,14 +69,8 @@ $stmt->close();
 redirect_with_message('영상이 성공적으로 수정되었습니다.', "/html/video/view.php?id={$id}");
 exit;
 
-function extract_video_id(string $url): ?string {
-    // YouTube: watch?v= / youtu.be / shorts
-    if (preg_match('/(?:youtube\.com\/.*[?&]v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/', $url, $m)) {
-        return $m[1];
-    }
-    // 치지직 클립 전용: /clips/, /embed/clip/, /video/clip/
-    if (preg_match('/chzzk\.naver\.com\/(?:clips|embed\/clip|video\/clip)\/([a-zA-Z0-9]+)/', $url, $m)) {
-        return $m[1];
-    }
-    return null;
+
+// ✅ YouTube / 치지직 URL 형식만 허용
+function is_valid_video_url(string $url): bool {
+    return preg_match('/(youtube\.com\/(watch|shorts)|youtu\.be\/|chzzk\.naver\.com\/clips\/)/', $url);
 }

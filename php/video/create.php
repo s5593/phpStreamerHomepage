@@ -26,9 +26,9 @@ if (mb_strlen($subject) > 100 || mb_strlen($video_url) > 255) {
     redirect_with_message('입력값이 너무 깁니다.','/html/video/write.php');
 }
 
-$video_id = extract_video_id($video_url);
-if (!$video_id) {
-    redirect_with_message('유효한 YouTube URL 또는 치지직 클립만 등록 가능합니다.','/html/video/write.php');
+// 🎯 영상 URL이 유효한 YouTube 또는 치지직 클립인지 검사
+if (!is_valid_video_url($video_url)) {
+    redirect_with_message('유효한 YouTube 또는 치지직 클립 URL만 입력 가능합니다.','/html/video/write.php');
 }
 
 $keywords = trim($_POST['keywords'] ?? '');
@@ -40,7 +40,7 @@ $stmt = $conn->prepare("
     INSERT INTO board_video (subject, video_url, user_id, keywords, created_at, updated_at, is_use)
     VALUES (?, ?, ?, ?, NOW(), NOW(), 1)
 ");
-$stmt->bind_param("ssis", $subject, $video_id, $user_id, $keywords);
+$stmt->bind_param("ssis", $subject, $video_url, $user_id, $keywords);
 
 if (!$stmt->execute()) {
     error_log("영상 등록 실패: " . $stmt->error);
@@ -51,16 +51,7 @@ $stmt->close();
 redirect_with_message('영상이 성공적으로 등록되었습니다.','/html/video/list.php');
 exit;
 
-// 🎯 공통 유틸: 영상 ID 추출 함수
-function extract_video_id(string $url): ?string {
-    // YouTube: watch?v= / youtu.be / shorts
-    if (preg_match('/(?:youtube\.com\/.*[?&]v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/', $url, $m)) {
-        return $m[1];
-    }
-    // 치지직 클립 전용: /clips/, /embed/clip/, /video/clip/
-    if (preg_match('/chzzk\.naver\.com\/(?:clips|embed\/clip|video\/clip)\/([a-zA-Z0-9]+)/', $url, $m)) {
-        return $m[1];
-    }
-    return null;
+// ✅ 유효성 검사 함수: YouTube 또는 치지직 URL 여부만 판단
+function is_valid_video_url(string $url): bool {
+    return preg_match('/(youtube\.com\/(watch|shorts)|youtu\.be\/|chzzk\.naver\.com\/clips\/)/', $url);
 }
-

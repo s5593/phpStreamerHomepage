@@ -48,6 +48,73 @@
     color: var(--color-text);
     border: none;
   }
+
+  .card__image {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* 또는 height: 200px; */
+    border-radius: 8px;
+  }
+
+  /* 🔸 키워드 버튼 스타일 */
+.video__keyword-btn {
+  display: inline-block;
+  margin: 4px 6px 0 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2ecc71;
+  background-color: #1e1e1e;
+  border: 1px solid #2ecc71;
+  border-radius: 20px;
+  cursor: default;
+  user-select: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.video__keyword-btn:hover {
+  background-color: #2ecc71;
+  color: #1e1e1e;
+}
+
+/* 🔸 페이징 스타일 */
+.video__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 40px 0 20px;
+}
+
+.video__page-button {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #eee;
+  background-color: #222;
+  border: 1px solid #444;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.video__page-button:hover {
+  background-color: #2ecc71;
+  color: #000;
+  border-color: #2ecc71;
+}
+
+.video__page-button--active {
+  background-color: #2ecc71;
+  color: #000;
+  font-weight: bold;
+  border-color: #2ecc71;
+  pointer-events: none;
+}
+
   
   /* 안내문 */
   .search-form__guide {
@@ -116,4 +183,46 @@
     font-size: 12px;
     color: var(--color-primary);
   }
+
+  .video__like-wrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .video__like-form {
+    display: inline-block;
+  }
+  
+  .video__like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: transparent;
+    border: 1px solid #2ecc71;
+    color: #2ecc71;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  
+  .video__like-btn:hover {
+    background-color: #2ecc71;
+    color: #222;
+    transform: scale(1.05);
+  }
+  
+  .video__like-icon {
+    font-size: 16px;
+    color: inherit;
+  }
+  
+  #like-count {
+    font-size: 13px;
+    color: inherit;
+  }
+  
+  
   

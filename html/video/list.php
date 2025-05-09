@@ -82,10 +82,14 @@ $result = $stmt->get_result();
       <div class="card-grid">
         <?php while ($row = $result->fetch_assoc()): ?>
           <?php
-            $video_id = $row['video_url'];
-            $thumbnail_url = preg_match('/^[a-zA-Z0-9_-]{11}$/', $video_id)
-              ? "https://img.youtube.com/vi/{$video_id}/hqdefault.jpg"
-              : "/uploads/main/image.png";
+            $video_url = $row['video_url'];
+            $thumbnail_url = '/uploads/main/image.png'; // 기본 이미지
+
+            // YouTube ID 추출 (watch?v=, youtu.be, shorts 지원)
+            if (preg_match('/(?:youtube\.com\/.*[?&]v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/', $video_url, $matches)) {
+                $youtube_id = $matches[1];
+                $thumbnail_url = "https://img.youtube.com/vi/{$youtube_id}/hqdefault.jpg";
+            }
           ?>
           <a href="/html/video/view.php?id=<?= htmlspecialchars($row['id']) ?>" class="card-link">
             <div class="card">
@@ -98,6 +102,7 @@ $result = $stmt->get_result();
           </a>
         <?php endwhile; ?>
       </div>
+
 
       <div class="video__pagination">
         <?php
