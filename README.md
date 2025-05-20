@@ -10,24 +10,38 @@
 
 ```bash
 public_html/
-├── css/             # 각 게시판 및 공통 스타일 시트
-├── html/
-│   ├── notice/      # 공지사항 게시판
-│   ├── post/        # 사용자 입력 게시판
-│   ├── video/       # 영상 게시판
-│   ├── wiki/        # 위키 게시판
-│   └── auth/        # 로그인, 회원가입, 비밀번호 찾기 등
-├── js/              # 공통 및 게시판별 JS 스크립트
-├── php/
-│   ├── data/        # DB 데이터 출력용 PHP
-│   ├── notice/      # 공지사항 처리 로직 (write, edit 등)
-│   ├── post/        # 사용자 게시판 처리 로직
-│   ├── video/       # 영상 게시판 처리 로직
-│   ├── wiki/        # 위키 처리 로직
-│   ├── auth/        # 로그인, 인증 등 처리
-│   └── common/      # 공통 함수, 보안 함수 등
-└── uploads/         # 이미지, 영상 업로드 경로
-💾 주요 데이터베이스 테이블
+├── css/ # 공통 및 게시판별 스타일 시트
+│
+├── html/ # 사용자 인터페이스 페이지 (PHP 기반)
+│ ├── notice/ # 공지사항 게시판
+│ ├── post/ # 사용자 입력 게시판
+│ ├── video/ # 영상 게시판
+│ ├── wiki/ # 위키 게시판
+│ └── auth/ # 로그인, 회원가입, 인증 관련 페이지
+│
+├── js/ # 클라이언트 사이드 JavaScript (기능별 분리)
+│ ├── admin/ # 관리자 전용 스크립트
+│ ├── auth/ # 로그인, 인증 관련 스크립트
+│ ├── main/ # 공통/메인 페이지 스크립트
+│ ├── notice/ # 공지사항 게시판 스크립트
+│ ├── video/ # 영상 게시판 스크립트
+│ └── wiki/ # 위키 전용 스크립트
+│
+├── php/ # 서버 사이드 로직 처리
+│ ├── common/ # 공통 함수, 보안 처리
+│ ├── data/ # JSON, Ajax 응답 처리
+│ ├── notice/ # 공지사항 로직 처리
+│ ├── post/ # 사용자 게시판 로직 처리
+│ ├── video/ # 영상 게시판 로직 처리
+│ ├── wiki/ # 위키 게시판 로직 처리
+│ └── auth/ # 인증 및 회원 기능 처리
+│
+├── uploads/ # 이미지 및 영상 업로드 파일 저장소
+│
+├── index.php # 메인 페이지
+└── banner_list.php # 관리자용 배너 관리 페이지
+```
+## 💾 주요 데이터베이스 테이블
 ✅ g5_member — 회원 정보
 이메일 인증, 비밀번호 재설정, 스트리머 URL 저장 기능 포함
 
@@ -73,7 +87,7 @@ CKEditor 또는 Quill 기반 HTML 문서
 ✅ video_user_keyword — 사용자 맞춤 키워드 통계
 회원별 자주 검색하는 키워드 누적 저장
 
-⚙️ 주요 기능 요약
+## ⚙️ 주요 기능 요약
 기능 구분	설명
 🔐 회원 시스템	가입, 로그인, 이메일 인증, 비밀번호 찾기, 탈퇴 기능
 📰 공지사항 게시판	관리자 전용, Markdown + HTML 작성, 비활성화 기능
@@ -85,46 +99,18 @@ CKEditor 또는 Quill 기반 HTML 문서
 🛡️ 보안 기능	CSRF 토큰, XSS 방지, MIME 검사, POST 기반 전송 처리
 📱 반응형 디자인	다크톤 기반, 퍼플 포인트 컬러, 카드형 버튼 UI 적용
 
-🧪 기술 스택
+## 🧪 기술 스택
 Frontend: HTML5, CSS3 (BEM 방식), JavaScript, Quill.js, Toast UI Editor (일부)
-
 Backend: PHP 8.1, MariaDB 10.3
-
 Library/Plugin: Swiper.js, Quill.js, Font Awesome (미사용), SendGrid API
-
 Security: CSRF Token, XSS Escape, Email Verification, MIME Type Check
 
-✅ 초기 관리자 계정
-makefile
-복사
-편집
-아이디: admin1
-비밀번호: [암호화됨]
-권한레벨: 4 (최고관리자)
-📁 SQL 초기화
-DB 초기화 및 테이블 생성은 다음 파일 사용:
-→ sss5593.sql
-
-bash
-복사
-편집
-# 예시
-mysql -u root -p < sss5593.sql
-📌 향후 추가 개발 예정 기능
-키워드 자동완성 및 추천
-
-히스토리 기반 위키 문서 버전관리
-
-관리자용 검색 통계 대시보드
-
-사용자 맞춤 콘텐츠 추천
-
-🙌 라이선스
+## 🙌 라이선스
 본 프로젝트는 교육 및 개인 용도로 자유롭게 사용할 수 있습니다.
 상업적 사용 및 재배포는 [라이선스 조항]에 따릅니다.
 
-📮 문의
+## 📮 문의
 제작자: 김범수
 이메일: s5593@naver.com
 깃허브: github.com/s5593
-```
+
