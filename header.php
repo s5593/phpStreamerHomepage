@@ -35,6 +35,7 @@ if (!empty($message)):  // null, 빈 문자열, false 모두 방지됨
           <li class="main-header__nav-item"><a href="/html/notice/list.php">공지사항</a></li>
           <li class="main-header__nav-item"><a href="/html/wiki/list.php">위키</a></li>
           <li class="main-header__nav-item"><a href="/html/video/list.php">영상</a></li>
+          <li class="main-header__nav-item"><a href="/html/post/list.php">이미지</a></li>
           <?php if ($is_admin): ?>
             <li class="main-header__nav-item"><a href="/html/admin/banner_list.php">관리자</a></li>
           <?php endif; ?>
@@ -58,6 +59,7 @@ if (!empty($message)):  // null, 빈 문자열, false 모두 방지됨
       <li><a href="/html/notice/list.php">공지사항</a></li>
       <li><a href="/html/wiki/list.php">위키</a></li>
       <li><a href="/html/video/list.php">영상</a></li>
+      <li><a href="/html/post/list.php">이미지</a></li>
       <?php if ($is_admin): ?>
         <li><a href="/html/admin/banner_list.php">관리자</a></li>
       <?php endif; ?>
